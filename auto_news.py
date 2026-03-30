@@ -331,7 +331,6 @@ def generate_html(articles):
             tags_html = make_tags_html(art["_tags"])
             cards_html += f"""
         <article class="card">
-            <div class="priority-bar {priority_class(art)}"></div>
             <div class="card-inner">
                 <div class="card-body">
                     <div class="card-tags">{tags_html}</div>
