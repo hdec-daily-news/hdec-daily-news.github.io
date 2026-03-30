@@ -5,72 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HDEC DAILY NEWS - 2026년 03월 30일</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans KR', sans-serif; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; }
-        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 40px 0 30px; border-bottom: 3px solid #e2b714; position: relative; overflow: hidden; }
-        .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
-        .header-content { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-        .header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-        .logo { width: 48px; height: 48px; background: #e2b714; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; color: #1a1a2e; flex-shrink: 0; }
-        .header h1 { font-size: 28px; font-weight: 700; color: #ffffff; }
-        .header-meta { display: flex; align-items: center; gap: 20px; font-size: 14px; color: #8899aa; }
-        .badge { display: inline-block; background: rgba(226, 183, 20, 0.15); color: #e2b714; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid rgba(226, 183, 20, 0.3); }
-        .container { max-width: 1000px; margin: 0 auto; padding: 32px 24px 60px; }
-        .legend { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #888; }
-        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        .card { background: #141414; border: 1px solid #222; border-radius: 16px; margin-bottom: 16px; overflow: hidden; transition: all 0.3s ease; position: relative; }
-        .card:hover { border-color: #444; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .card-inner { display: flex; gap: 20px; padding: 24px; align-items: flex-start; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }
+
+        /* Header - 현대건설 CI */
+        .header { background: #ffffff; padding: 28px 0; border-bottom: 3px solid #15ad60; }
+        .header-content { max-width: 960px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .logo-ci { display: flex; align-items: center; gap: 2px; }
+        .logo-tri { width: 0; height: 0; }
+        .logo-tri-yellow { border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #d4a017; }
+        .logo-tri-green { border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #15ad60; margin-left: -12px; }
+        .header-title { display: flex; flex-direction: column; }
+        .header h1 { font-size: 24px; font-weight: 800; color: #1a1a1a; letter-spacing: 1px; }
+        .header-sub { font-size: 12px; color: #888; font-weight: 400; margin-top: 2px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .header-date { font-size: 14px; color: #555; font-weight: 500; }
+        .badge { display: inline-block; background: #15ad60; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+
+        /* Main */
+        .container { max-width: 960px; margin: 0 auto; padding: 28px 24px 60px; }
+
+        /* Legend */
+        .legend { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+        /* Section */
+        .section-divider { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }
+        .section-divider::after { content: ''; flex: 1; height: 1px; background: #ddd; }
+
+        /* Cards */
+        .card { background: #ffffff; border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 12px; overflow: hidden; transition: all 0.2s ease; }
+        .card:hover { border-color: #15ad60; box-shadow: 0 2px 12px rgba(21, 173, 96, 0.08); }
+        .card-inner { padding: 20px 24px; }
         .card-body { flex: 1; min-width: 0; }
-        .card-tags { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-        .tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 6px; letter-spacing: 0.3px; }
-        .tag-energy { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
-        .tag-risk { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid rgba(231, 76, 60, 0.25); }
-        .tag-compete { background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.25); }
-        .tag-infra { background: rgba(155, 89, 182, 0.15); color: #9b59b6; border: 1px solid rgba(155, 89, 182, 0.25); }
-        .tag-strategy { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
-        .card-title { font-size: 17px; font-weight: 600; color: #f0f0f0; line-height: 1.5; margin-bottom: 8px; }
+        .card-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+        .tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.2px; }
+        .tag-energy { background: #e8f8ef; color: #15ad60; }
+        .tag-risk { background: #fdecea; color: #d32f2f; }
+        .tag-compete { background: #e3f2fd; color: #1976d2; }
+        .tag-infra { background: #f3e5f5; color: #7b1fa2; }
+        .tag-strategy { background: #fff8e1; color: #f9a825; }
+        .card-title { font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 6px; }
         .card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
-        .card-title a:hover { color: #e2b714; }
-        .card-desc { font-size: 14px; color: #888; line-height: 1.7; margin-bottom: 12px; }
+        .card-title a:hover { color: #15ad60; }
+        .card-desc { font-size: 13px; color: #777; line-height: 1.7; margin-bottom: 12px; }
         .card-footer { display: flex; align-items: center; justify-content: space-between; }
-        .card-source { font-size: 12px; color: #666; }
-        .card-link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: #e2b714; text-decoration: none; font-weight: 500; }
-        .card-link:hover { opacity: 0.8; }
-        .card-link svg { width: 14px; height: 14px; }
-        .priority-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
-        .priority-critical { background: #e74c3c; }
-        .priority-high { background: #e2b714; }
-        .priority-medium { background: #3498db; }
-        .section-divider { display: flex; align-items: center; gap: 12px; margin: 32px 0 20px; font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 1px; }
-        .section-divider::after { content: ''; flex: 1; height: 1px; background: #222; }
-        .footer { text-align: center; padding: 32px 24px; border-top: 1px solid #1a1a1a; font-size: 12px; color: #444; }
-        @media (max-width: 640px) { .header h1 { font-size: 22px; } .card-inner { padding: 18px; gap: 14px; } .card-title { font-size: 15px; } .header-meta { flex-direction: column; gap: 8px; } }
+        .card-source { font-size: 12px; color: #aaa; }
+        .card-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #15ad60; text-decoration: none; font-weight: 600; }
+        .card-link:hover { color: #0d8c4d; }
+        .card-link svg { width: 13px; height: 13px; }
+
+        /* Footer */
+        .footer { text-align: center; padding: 28px 24px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #aaa; background: #fff; }
+        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 2px; margin-bottom: 8px; }
+        .footer-tri-y { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 18px solid #d4a017; }
+        .footer-tri-g { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 18px solid #15ad60; margin-left: -7px; }
+
+        @media (max-width: 640px) {
+            .header-content { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .header h1 { font-size: 20px; }
+            .card-inner { padding: 16px; }
+            .card-title { font-size: 14px; }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="header-top">
-                <div class="logo">HC</div>
-                <h1>HDEC DAILY NEWS</h1>
+            <div class="header-left">
+                <div class="logo-ci">
+                    <div class="logo-tri logo-tri-yellow"></div>
+                    <div class="logo-tri logo-tri-green"></div>
+                </div>
+                <div class="header-title">
+                    <h1>HDEC DAILY NEWS</h1>
+                    <span class="header-sub">AI Curated News Brief</span>
+                </div>
             </div>
-            <div class="header-meta">
-                <span>2026년 03월 30일</span>
+            <div class="header-right">
+                <span class="header-date">2026년 03월 30일</span>
                 <span class="badge">TOP 10</span>
-                <span>AI 기반 뉴스 큐레이션 · 매일 오후 1시 자동 업데이트</span>
             </div>
         </div>
     </header>
     <main class="container">
         <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#2ecc71"></div>에너지</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#e74c3c"></div>리스크</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#3498db"></div>수주경쟁</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#9b59b6"></div>인프라</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#f1c40f"></div>전략</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#7b1fa2"></div>인프라</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f9a825"></div>전략</div>
         </div>
         <div class="section-divider">에너지 사업</div>
 
@@ -158,7 +185,7 @@
                     <h2 class="card-title">
                         <a href="https://www.mt.co.kr/estate/2026/03/30/2026033014370742877" target="_blank">&quot;자재값 40% 뛰고 그마저도 수급 불안&quot;…건설현장 '4월 위기설' 확산</a>
                     </h2>
-                    <p class="card-desc">30일 건설업계에 따르면 현대건설은 최근 은평 대조1구역을 포함한 전 사업장에 '공사비 원가 상승 및 공기 지연 우려' 공문을 발송했다. 공문에는 미국과 이란 간 전쟁 장기화 영향으로 원자재 가격 상승과 공급 차질이... </p>
+                    <p class="card-desc">30일 건설업계에 따르면 현대건설은 서울시 은평구 대조1구역 사업장에 '공사비 원가 상승 및 공기 지연 우려' 공문을 발송했다. 공문에는 미국과 이란 간 전쟁 장기화 영향으로 원자재 가격 상승과 공급 차질이 발생하고... </p>
                     <div class="card-footer">
                         <span class="card-source">머니투데이 · 2026-03-30</span>
                         <a class="card-link" href="https://www.mt.co.kr/estate/2026/03/30/2026033014370742877" target="_blank">
@@ -267,6 +294,10 @@
 
     </main>
     <footer class="footer">
+        <div class="footer-logo">
+            <div class="footer-tri-y"></div>
+            <div class="footer-tri-g"></div>
+        </div>
         <p>HDEC AI 뉴스 큐레이션 · 네이버 뉴스 API 기반 · 2026.03.30 자동 생성</p>
     </footer>
 </body>
