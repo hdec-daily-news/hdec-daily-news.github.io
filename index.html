@@ -13,15 +13,14 @@
         .header { background: #ffffff; padding: 28px 0; border-bottom: 3px solid #15ad60; }
         .header-content { max-width: 960px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
         .header-left { display: flex; align-items: center; gap: 16px; }
-        .logo-ci { display: flex; align-items: center; gap: 2px; }
-        .logo-tri { width: 0; height: 0; }
-        .logo-tri-yellow { border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #d4a017; }
-        .logo-tri-green { border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 32px solid #15ad60; margin-left: -12px; }
+        .logo-img { height: 36px; }
+        .header-divider { width: 1px; height: 32px; background: #ddd; }
         .header-title { display: flex; flex-direction: column; }
-        .header h1 { font-size: 24px; font-weight: 800; color: #1a1a1a; letter-spacing: 1px; }
-        .header-sub { font-size: 12px; color: #888; font-weight: 400; margin-top: 2px; }
+        .header h1 { font-size: 22px; font-weight: 800; color: #1a1a1a; letter-spacing: 1px; }
         .header-right { display: flex; align-items: center; gap: 16px; }
+        .header-info { display: flex; flex-direction: column; align-items: flex-end; }
         .header-date { font-size: 14px; color: #555; font-weight: 500; }
+        .header-schedule { font-size: 11px; color: #aaa; margin-top: 2px; }
         .badge { display: inline-block; background: #15ad60; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
 
         /* Main */
@@ -60,9 +59,6 @@
 
         /* Footer */
         .footer { text-align: center; padding: 28px 24px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #aaa; background: #fff; }
-        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 2px; margin-bottom: 8px; }
-        .footer-tri-y { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 18px solid #d4a017; }
-        .footer-tri-g { width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 18px solid #15ad60; margin-left: -7px; }
 
         @media (max-width: 640px) {
             .header-content { flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -76,17 +72,17 @@
     <header class="header">
         <div class="header-content">
             <div class="header-left">
-                <div class="logo-ci">
-                    <div class="logo-tri logo-tri-yellow"></div>
-                    <div class="logo-tri logo-tri-green"></div>
-                </div>
+                <img src="logo.png" alt="HYUNDAI E&C" class="logo-img">
+                <div class="header-divider"></div>
                 <div class="header-title">
-                    <h1>HDEC DAILY NEWS</h1>
-                    <span class="header-sub">AI Curated News Brief</span>
+                    <h1>DAILY NEWS</h1>
                 </div>
             </div>
             <div class="header-right">
-                <span class="header-date">2026년 03월 30일</span>
+                <div class="header-info">
+                    <span class="header-date">2026년 03월 30일</span>
+                    <span class="header-schedule">매일 오전 7:30 / 오후 1:00 자동 업데이트</span>
+                </div>
                 <span class="badge">TOP 10</span>
             </div>
         </div>
@@ -294,10 +290,7 @@
 
     </main>
     <footer class="footer">
-        <div class="footer-logo">
-            <div class="footer-tri-y"></div>
-            <div class="footer-tri-g"></div>
-        </div>
+        <img src="logo.png" alt="HYUNDAI E&C" style="height:24px; margin-bottom:8px;">
         <p>HDEC AI 뉴스 큐레이션 · 네이버 뉴스 API 기반 · 2026.03.30 자동 생성</p>
     </footer>
 </body>
