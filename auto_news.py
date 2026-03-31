@@ -4,6 +4,7 @@ HDEC DAILY NEWS 자동 생성기
 """
 
 import csv
+import json
 import os
 import re
 import requests
@@ -22,6 +23,7 @@ NAVER_CLIENT_SECRET = "uxqj17VklI"
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 HTML_PATH = os.path.join(OUTPUT_DIR, "news_top10.html")
 CSV_PATH = os.path.join(OUTPUT_DIR, "현대건설_뉴스_종합.csv")
+SHOWN_PATH = os.path.join(OUTPUT_DIR, "shown_articles.json")
 
 
 # ──────────────────────────────────────
@@ -94,6 +96,52 @@ def remove_duplicates(articles):
             seen.add(key)
             unique.append(art)
     return unique
+
+
+
+# ──────────────────────────────────────
+# 2-b) 이전 표시 기사 제외 (중복 방지)
+# ──────────────────────────────────────
+def load_shown_articles():
+    if not os.path.exists(SHOWN_PATH):
+        return set()
+    try:
+        with open(SHOWN_PATH, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        cutoff = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
+        return set(k for k, v in data.items() if v >= cutoff)
+    except Exception:
+        return set()
+
+
+def save_shown_articles(articles):
+    existing = {}
+    if os.path.exists(SHOWN_PATH):
+        try:
+            with open(SHOWN_PATH, 'r', encoding='utf-8') as f:
+                existing = json.load(f)
+        except Exception:
+            pass
+    cutoff = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
+    existing = {k: v for k, v in existing.items() if v >= cutoff}
+    today = datetime.now().strftime('%Y-%m-%d')
+    for art in articles:
+        key = re.sub(r"[^가-힣a-zA-Z0-9]", "", art["title"])[:30]
+        existing[key] = today
+    with open(SHOWN_PATH, 'w', encoding='utf-8') as f:
+        json.dump(existing, f, ensure_ascii=False, indent=2)
+
+
+def exclude_shown(articles):
+    shown = load_shown_articles()
+    if not shown:
+        return articles
+    filtered = []
+    for art in articles:
+        key = re.sub(r"[^가-힣a-zA-Z0-9]", "", art["title"])[:30]
+        if key not in shown:
+            filtered.append(art)
+    return filtered
 
 
 # ──────────────────────────────────────
@@ -469,33 +517,41 @@ def main():
     print(f"{'='*50}\n")
 
     # 1) 수집
-    print("[1/5] 네이버 뉴스 API 수집 중...")
+    print("[1/6] 네이버 뉴스 API 수집 중...")
     articles = collect_naver_news()
     print(f"  → {len(articles)}건 수집")
 
     # 2) 중복 제거
-    print("[2/5] 중복 제거 중...")
+    print("[2/6] 중복 제거 중...")
     articles = remove_duplicates(articles)
     print(f"  → {len(articles)}건")
 
     # 3) 불필요 기사 필터링
-    print("[3/5] 불필요 기사 필터링 중...")
+    print("[3/6] 불필요 기사 필터링 중...")
     articles = filter_irrelevant(articles)
     print(f"  → {len(articles)}건")
 
-    # 4) TOP 10 선정
-    print("[4/5] TOP 10 선정 중...")
+    # 4) 이전 표시 기사 제외
+    print("[4/6] 이전 표시 기사 제외 중...")
+    before = len(articles)
+    articles = exclude_shown(articles)
+    print(f"  → {before - len(articles)}건 제외, {len(articles)}건 남음")
+
+    # 5) TOP 10 선정
+    print("[5/6] TOP 10 선정 중...")
     top10 = select_top10(articles)
     print(f"  → TOP 10 선정 완료")
     for i, art in enumerate(top10, 1):
         print(f"     [{i}] (점수:{art['_score']}) {art['title'][:50]}")
 
-    # 5) HTML 생성
-    print("[5/5] HTML 생성 중...")
+    # 6) HTML 생성
+    print("[6/6] HTML 생성 중...")
     html = generate_html(top10)
     with open(HTML_PATH, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"  → 저장 완료: {HTML_PATH}")
+
+    save_shown_articles(top10)
 
     # CSV도 저장
     with open(CSV_PATH, "w", newline="", encoding="utf-8-sig") as f:
