@@ -15,7 +15,6 @@ from html import unescape
 # 설정
 # ──────────────────────────────────────
 KEYWORD = "현대건설"
-DAYS = 1
 
 NAVER_CLIENT_ID = "4EpC74MmQmbBp2bpWpI5"
 NAVER_CLIENT_SECRET = "uxqj17VklI"
@@ -36,7 +35,13 @@ def collect_naver_news():
         "X-Naver-Client-Id": NAVER_CLIENT_ID,
         "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
     }
-    cutoff = datetime.now() - timedelta(days=DAYS)
+    # 오전 실행(~12시): 전일 16시 이후 기사만 수집
+    # 오후 실행(12시~): 당일 08시 이후 기사만 수집
+    now = datetime.now()
+    if now.hour < 12:
+        cutoff = now.replace(hour=16, minute=0, second=0, microsecond=0) - timedelta(days=1)
+    else:
+        cutoff = now.replace(hour=8, minute=0, second=0, microsecond=0)
 
     for start in range(1, 1000, 100):
         params = {"query": KEYWORD, "display": 100, "start": start, "sort": "date"}
