@@ -15,7 +15,12 @@ from html import unescape
 # ──────────────────────────────────────
 # 설정
 # ──────────────────────────────────────
-KEYWORD = "현대건설"
+SEARCH_KEYWORDS = [
+    "현대건설", "삼성물산 건설", "DL이앤씨", "대우건설", "GS건설",
+    "재건축 시공사", "재개발 수주", "건설사 수주",
+    "원전 건설", "해상풍력 건설", "인프라 착공",
+    "건설 공사비", "건설 리스크",
+]
 
 NAVER_CLIENT_ID = "4EpC74MmQmbBp2bpWpI5"
 NAVER_CLIENT_SECRET = "uxqj17VklI"
@@ -30,61 +35,75 @@ SHOWN_PATH = os.path.join(OUTPUT_DIR, "shown_articles.json")
 # 1) 네이버 뉴스 API 수집
 # ──────────────────────────────────────
 def collect_naver_news():
-    articles = []
     url = "https://openapi.naver.com/v1/search/news.json"
     headers = {
         "X-Naver-Client-Id": NAVER_CLIENT_ID,
         "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
     }
-    # 오전 실행(~12시): 전일 16시 이후 기사만 수집
-    # 오후 실행(12시~): 당일 08시 이후 기사만 수집
     now = datetime.now(KST)
     if now.hour < 12:
         cutoff = now.replace(hour=16, minute=0, second=0, microsecond=0) - timedelta(days=1)
     else:
         cutoff = now.replace(hour=8, minute=0, second=0, microsecond=0)
 
-    for start in range(1, 1000, 100):
-        params = {"query": KEYWORD, "display": 100, "start": start, "sort": "date"}
-        try:
-            resp = requests.get(url, headers=headers, params=params, timeout=10)
-            resp.raise_for_status()
-            data = resp.json()
-        except Exception as e:
-            print(f"  [API 오류] {e}")
-            break
+    # 기사별 등장 횟수 추적 (여러 키워드에 걸리면 = 화제성 높음)
+    seen_links = {}  # link -> article dict
+    hit_count = {}   # link -> 몇 개 키워드에서 등장했는지
 
-        items = data.get("items", [])
-        if not items:
-            break
-
-        stop = False
-        for item in items:
+    for keyword in SEARCH_KEYWORDS:
+        print(f"    검색: '{keyword}'")
+        kw_count = 0
+        for start in range(1, 400, 100):
+            params = {"query": keyword, "display": 100, "start": start, "sort": "date"}
             try:
-                pub_date = datetime.strptime(
-                    item["pubDate"], "%a, %d %b %Y %H:%M:%S %z"
-                ).astimezone(KST)
-            except ValueError:
-                continue
-
-            if pub_date < cutoff:
-                stop = True
+                resp = requests.get(url, headers=headers, params=params, timeout=10)
+                resp.raise_for_status()
+                data = resp.json()
+            except Exception as e:
+                print(f"    [API 오류] {e}")
                 break
 
-            title = re.sub(r"<.*?>", "", unescape(item.get("title", "")))
-            link = item.get("originallink") or item.get("link", "")
-            description = re.sub(r"<.*?>", "", unescape(item.get("description", "")))
+            items = data.get("items", [])
+            if not items:
+                break
 
-            articles.append({
-                "date": pub_date.strftime("%Y-%m-%d"),
-                "title": title,
-                "link": link,
-                "source": "네이버뉴스",
-                "description": description,
-            })
+            stop = False
+            for item in items:
+                try:
+                    pub_date = datetime.strptime(
+                        item["pubDate"], "%a, %d %b %Y %H:%M:%S %z"
+                    ).astimezone(KST)
+                except ValueError:
+                    continue
 
-        if stop:
-            break
+                if pub_date < cutoff:
+                    stop = True
+                    break
+
+                title = re.sub(r"<.*?>", "", unescape(item.get("title", "")))
+                link = item.get("originallink") or item.get("link", "")
+                description = re.sub(r"<.*?>", "", unescape(item.get("description", "")))
+
+                if link not in seen_links:
+                    seen_links[link] = {
+                        "date": pub_date.strftime("%Y-%m-%d"),
+                        "title": title,
+                        "link": link,
+                        "source": "네이버뉴스",
+                        "description": description,
+                    }
+                    hit_count[link] = 0
+                    kw_count += 1
+                hit_count[link] += 1
+
+            if stop:
+                break
+        print(f"    → {kw_count}건 신규")
+
+    articles = []
+    for link, art in seen_links.items():
+        art["_hits"] = hit_count[link]
+        articles.append(art)
 
     return articles
 
@@ -186,6 +205,16 @@ def filter_irrelevant(articles):
         if any(re.search(pat, text) for pat in WEAK_MENTION_PATTERNS):
             continue
 
+        # 건설업과 관련 없는 기사 제외
+        construction_signals = [
+            "건설", "시공", "수주", "재건축", "재개발", "리모델링", "분양",
+            "공사", "착공", "준공", "설계", "도급", "하도급", "원전", "풍력",
+            "인프라", "EPC", "플랜트", "정비사업", "조합", "아파트",
+            "주택", "부동산", "디벨로퍼", "시행사", "발주", "입찰",
+        ]
+        if not any(kw in text for kw in construction_signals):
+            continue
+
         filtered.append(art)
     return filtered
 
@@ -257,9 +286,30 @@ def score_article(art):
         if re.search(pat, text):
             score += pts  # pts is negative
 
-    # 제목에 '현대건설'이 직접 포함되면 가산
+    # 현대건설 직접 언급 가산
     if "현대건설" in art["title"]:
-        score += 5
+        score += 8
+    elif "현대건설" in text:
+        score += 4
+
+    # 화제성 가산: 여러 키워드 검색에 걸린 기사 = 업계 전반에서 주목
+    hits = art.get("_hits", 1)
+    if hits >= 3:
+        score += 15
+    elif hits >= 2:
+        score += 8
+
+    # 주요 매체 가산 (트래픽 높은 언론사)
+    MAJOR_OUTLETS = [
+        "mk.co.kr", "hankyung.com", "yna.co.kr", "sedaily.com",
+        "chosun.com", "donga.com", "joongang.co.kr", "khan.co.kr",
+        "hani.co.kr", "mt.co.kr", "asiae.co.kr", "fnnews.com",
+        "edaily.co.kr", "news1.kr", "newsis.com", "sbs.co.kr",
+        "kbs.co.kr", "mbc.co.kr", "jtbc.co.kr", "ytn.co.kr",
+    ]
+    link = art.get("link", "")
+    if any(outlet in link for outlet in MAJOR_OUTLETS):
+        score += 6
 
     return score
 
@@ -559,7 +609,7 @@ def generate_html(articles):
     </main>
     <footer class="footer">
         <img src="logo.png" alt="HYUNDAI E&C" style="height:24px; margin-bottom:8px;">
-        <p>HDEC AI 뉴스 큐레이션 · 네이버 뉴스 API 기반 · {today_short} 자동 생성</p>
+        <p>HDEC AI 뉴스 큐레이션 · 건설업계 뉴스 종합 · {today_short} 자동 생성</p>
     </footer>
 </body>
 </html>"""
@@ -577,9 +627,9 @@ def main():
     print(f"{'='*50}\n")
 
     # 1) 수집
-    print("[1/6] 네이버 뉴스 API 수집 중...")
+    print("[1/6] 건설업계 뉴스 수집 중...")
     articles = collect_naver_news()
-    print(f"  → {len(articles)}건 수집")
+    print(f"  → 총 {len(articles)}건 수집")
 
     # 2) 중복 제거
     print("[2/6] 중복 제거 중...")
@@ -602,7 +652,7 @@ def main():
     top10 = select_top10(articles)
     print(f"  → TOP 10 선정 완료")
     for i, art in enumerate(top10, 1):
-        print(f"     [{i}] (점수:{art['_score']}) {art['title'][:50]}")
+        print(f"     [{i}] (점수:{art['_score']}, 화제성:{art.get('_hits',1)}) {art['title'][:50]}")
 
     # 6) HTML 생성
     print("[6/6] HTML 생성 중...")
