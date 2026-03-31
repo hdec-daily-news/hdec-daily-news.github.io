@@ -290,43 +290,41 @@ def select_top10(articles):
     scored = [(score_article(a), a) for a in articles]
     scored.sort(key=lambda x: x[0], reverse=True)
 
-    # 섹션별 3-3-4 할당
-    from collections import OrderedDict
-    quota = OrderedDict([
-        ("에너지 사업", 3),
-        ("리스크 모니터링", 3),
-        ("수주 경쟁 & 전략", 4),
-    ])
-    buckets = {s: [] for s in quota}
+    sections = ["에너지 사업", "리스크 모니터링", "수주 경쟁 & 전략"]
+    MIN_PER_SECTION = 2
+    MAX_PER_SECTION = 5
+    buckets = {s: [] for s in sections}
     seen_titles = []
 
+    # 1단계: 각 섹션 최소 2건 확보
     for sc, art in scored:
         if _is_similar(art["title"], seen_titles):
             continue
         _, section = classify_article(art)
-        if section in buckets and len(buckets[section]) < quota[section]:
+        if section in buckets and len(buckets[section]) < MIN_PER_SECTION:
             art["_score"] = sc
             buckets[section].append(art)
             seen_titles.append(art["title"])
 
-    # 할당 못 채운 섹션이 있으면 다른 섹션에서 추가 충원
-    selected = []
-    remaining = 0
-    for sec in quota:
-        selected.extend(buckets[sec])
-        remaining += quota[sec] - len(buckets[sec])
-
-    if remaining > 0:
-        for sc, art in scored:
-            if art in selected or _is_similar(art["title"], seen_titles):
-                continue
+    # 2단계: 나머지는 점수순으로 자유 배분 (섹션당 최대 5건)
+    total = sum(len(v) for v in buckets.values())
+    for sc, art in scored:
+        if total >= 10:
+            break
+        if any(art is a for bucket in buckets.values() for a in bucket):
+            continue
+        if _is_similar(art["title"], seen_titles):
+            continue
+        _, section = classify_article(art)
+        if section in buckets and len(buckets[section]) < MAX_PER_SECTION:
             art["_score"] = sc
-            selected.append(art)
+            buckets[section].append(art)
             seen_titles.append(art["title"])
-            remaining -= 1
-            if remaining <= 0:
-                break
+            total += 1
 
+    selected = []
+    for sec in sections:
+        selected.extend(buckets[sec])
     return selected
 
 
