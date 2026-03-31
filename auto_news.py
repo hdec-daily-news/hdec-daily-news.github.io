@@ -8,7 +8,8 @@ import json
 import os
 import re
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+KST = timezone(timedelta(hours=9))
 from html import unescape
 
 # ──────────────────────────────────────
@@ -37,7 +38,7 @@ def collect_naver_news():
     }
     # 오전 실행(~12시): 전일 16시 이후 기사만 수집
     # 오후 실행(12시~): 당일 08시 이후 기사만 수집
-    now = datetime.now()
+    now = datetime.now(KST)
     if now.hour < 12:
         cutoff = now.replace(hour=16, minute=0, second=0, microsecond=0) - timedelta(days=1)
     else:
@@ -113,7 +114,7 @@ def load_shown_articles():
     try:
         with open(SHOWN_PATH, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        cutoff = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
+        cutoff = (datetime.now(KST) - timedelta(days=3)).strftime('%Y-%m-%d')
         return set(k for k, v in data.items() if v >= cutoff)
     except Exception:
         return set()
@@ -127,9 +128,9 @@ def save_shown_articles(articles):
                 existing = json.load(f)
         except Exception:
             pass
-    cutoff = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
+    cutoff = (datetime.now(KST) - timedelta(days=3)).strftime('%Y-%m-%d')
     existing = {k: v for k, v in existing.items() if v >= cutoff}
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = datetime.now(KST).strftime('%Y-%m-%d')
     for art in articles:
         key = re.sub(r"[^가-힣a-zA-Z0-9]", "", art["title"])[:30]
         existing[key] = today
@@ -376,8 +377,8 @@ def classify_article(art):
 # 6) HTML 생성
 # ──────────────────────────────────────
 def generate_html(articles):
-    today = datetime.now().strftime("%Y년 %m월 %d일")
-    today_short = datetime.now().strftime("%Y.%m.%d")
+    today = datetime.now(KST).strftime("%Y년 %m월 %d일")
+    today_short = datetime.now(KST).strftime("%Y.%m.%d")
 
     # 섹션별 분류
     sections = {"에너지 사업": [], "리스크 모니터링": [], "수주 경쟁 & 전략": []}
@@ -572,7 +573,7 @@ def generate_html(articles):
 def main():
     print(f"\n{'='*50}")
     print(f"  HDEC DAILY NEWS 자동 생성")
-    print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"  {datetime.now(KST).strftime('%Y-%m-%d %H:%M')}")
     print(f"{'='*50}\n")
 
     # 1) 수집
