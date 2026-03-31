@@ -263,19 +263,42 @@ def score_article(art):
     return score
 
 
+def _title_keywords(title):
+    """제목에서 핵심 명사 키워드 집합 추출"""
+    clean = re.sub(r"[^가-힣a-zA-Z0-9]", " ", title)
+    words = set(w for w in clean.split() if len(w) >= 2)
+    return words
+
+
+def _is_similar(title, seen_titles):
+    """기존 선정 기사와 유사한지 판별 (키워드 50% 이상 겹치면 유사)"""
+    kw_new = _title_keywords(title)
+    if not kw_new:
+        return False
+    for prev_title in seen_titles:
+        kw_prev = _title_keywords(prev_title)
+        if not kw_prev:
+            continue
+        overlap = len(kw_new & kw_prev)
+        shorter = min(len(kw_new), len(kw_prev))
+        if shorter > 0 and overlap / shorter >= 0.5:
+            return True
+    return False
+
+
 def select_top10(articles):
     scored = [(score_article(a), a) for a in articles]
     scored.sort(key=lambda x: x[0], reverse=True)
 
-    # 상위 10개, 같은 주제 중복 방지
+    # 상위 10개, 유사 기사 중복 방지
     selected = []
-    seen_keys = set()
+    seen_titles = []
     for sc, art in scored:
-        clean = re.sub(r"[^가-힣]", "", art["title"])[:15]
-        if clean not in seen_keys:
-            seen_keys.add(clean)
-            art["_score"] = sc
-            selected.append(art)
+        if _is_similar(art["title"], seen_titles):
+            continue
+        art["_score"] = sc
+        selected.append(art)
+        seen_titles.append(art["title"])
         if len(selected) >= 10:
             break
 
