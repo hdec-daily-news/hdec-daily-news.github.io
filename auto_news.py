@@ -63,7 +63,7 @@ def collect_naver_news():
             try:
                 pub_date = datetime.strptime(
                     item["pubDate"], "%a, %d %b %Y %H:%M:%S %z"
-                ).replace(tzinfo=None)
+                ).astimezone(KST)
             except ValueError:
                 continue
 
