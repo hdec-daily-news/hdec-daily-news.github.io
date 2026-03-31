@@ -327,14 +327,16 @@ def classify_article(art):
     if any(w in text for w in energy_words):
         tags.append(("에너지", "energy"))
         section = "에너지 사업"
+    is_redev = any(w in text for w in ["재건축", "재개발", "리모델링", "정비사업", "조합", "시공사 선정"])
     if any(w in text for w in risk_words):
         tags.append(("리스크", "risk"))
-        if section != "에너지 사업":
+        if section != "에너지 사업" and not is_redev:
             section = "리스크 모니터링"
     if any(w in text for w in compete_words):
         tags.append(("수주경쟁", "compete"))
-        if section not in ("에너지 사업", "리스크 모니터링"):
-            section = "수주 경쟁 & 전략"
+        if section not in ("에너지 사업",) or is_redev:
+            if is_redev or section != "리스크 모니터링":
+                section = "수주 경쟁 & 전략"
     if any(w in text for w in infra_words):
         tags.append(("인프라", "infra"))
     if any(w in text for w in strategy_words):
