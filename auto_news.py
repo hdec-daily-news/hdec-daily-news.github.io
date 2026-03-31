@@ -290,17 +290,42 @@ def select_top10(articles):
     scored = [(score_article(a), a) for a in articles]
     scored.sort(key=lambda x: x[0], reverse=True)
 
-    # 상위 10개, 유사 기사 중복 방지
-    selected = []
+    # 섹션별 3-3-4 할당
+    from collections import OrderedDict
+    quota = OrderedDict([
+        ("에너지 사업", 3),
+        ("리스크 모니터링", 3),
+        ("수주 경쟁 & 전략", 4),
+    ])
+    buckets = {s: [] for s in quota}
     seen_titles = []
+
     for sc, art in scored:
         if _is_similar(art["title"], seen_titles):
             continue
-        art["_score"] = sc
-        selected.append(art)
-        seen_titles.append(art["title"])
-        if len(selected) >= 10:
-            break
+        _, section = classify_article(art)
+        if section in buckets and len(buckets[section]) < quota[section]:
+            art["_score"] = sc
+            buckets[section].append(art)
+            seen_titles.append(art["title"])
+
+    # 할당 못 채운 섹션이 있으면 다른 섹션에서 추가 충원
+    selected = []
+    remaining = 0
+    for sec in quota:
+        selected.extend(buckets[sec])
+        remaining += quota[sec] - len(buckets[sec])
+
+    if remaining > 0:
+        for sc, art in scored:
+            if art in selected or _is_similar(art["title"], seen_titles):
+                continue
+            art["_score"] = sc
+            selected.append(art)
+            seen_titles.append(art["title"])
+            remaining -= 1
+            if remaining <= 0:
+                break
 
     return selected
 
