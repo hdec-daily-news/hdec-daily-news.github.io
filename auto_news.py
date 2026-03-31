@@ -338,44 +338,34 @@ def _is_similar(title, seen_titles):
 
 
 def select_top10(articles):
-    scored = [(score_article(a), a) for a in articles]
-    scored.sort(key=lambda x: x[0], reverse=True)
-
+    """각 섹션별로 독립 랭킹 후 상위 기사 선정"""
     sections = ["에너지 사업", "리스크 모니터링", "수주 경쟁 & 전략"]
-    MIN_PER_SECTION = 2
-    MAX_PER_SECTION = 5
+    SECTION_COUNTS = {"에너지 사업": 3, "리스크 모니터링": 3, "수주 경쟁 & 전략": 4}
+
+    # 섹션별로 기사 분류
     buckets = {s: [] for s in sections}
-    seen_titles = []
-
-    # 1단계: 각 섹션 최소 2건 확보
-    for sc, art in scored:
-        if _is_similar(art["title"], seen_titles):
-            continue
+    for art in articles:
+        sc = score_article(art)
+        art["_score"] = sc
         _, section = classify_article(art)
-        if section in buckets and len(buckets[section]) < MIN_PER_SECTION:
-            art["_score"] = sc
+        if section in buckets:
             buckets[section].append(art)
-            seen_titles.append(art["title"])
 
-    # 2단계: 나머지는 점수순으로 자유 배분 (섹션당 최대 5건)
-    total = sum(len(v) for v in buckets.values())
-    for sc, art in scored:
-        if total >= 10:
-            break
-        if any(art is a for bucket in buckets.values() for a in bucket):
-            continue
-        if _is_similar(art["title"], seen_titles):
-            continue
-        _, section = classify_article(art)
-        if section in buckets and len(buckets[section]) < MAX_PER_SECTION:
-            art["_score"] = sc
-            buckets[section].append(art)
-            seen_titles.append(art["title"])
-            total += 1
-
+    # 각 섹션 내에서 점수순 정렬 → 유사기사 제거 → 상위 N건 선정
     selected = []
     for sec in sections:
-        selected.extend(buckets[sec])
+        pool = sorted(buckets[sec], key=lambda a: a["_score"], reverse=True)
+        picked = []
+        seen_titles = []
+        for art in pool:
+            if len(picked) >= SECTION_COUNTS[sec]:
+                break
+            if _is_similar(art["title"], seen_titles):
+                continue
+            picked.append(art)
+            seen_titles.append(art["title"])
+        selected.extend(picked)
+
     return selected
 
 
@@ -398,27 +388,34 @@ def classify_article(art):
     infra_words = ["GTX", "인프라", "LOC", "착공", "공공"]
     strategy_words = ["해외", "CEO", "전략", "확장", "협약", "MOU", "공동개발"]
 
-    if any(w in text for w in energy_words):
-        tags.append(("에너지", "energy"))
-        section = "에너지 사업"
+    has_energy = any(w in text for w in energy_words)
+    has_risk = any(w in text for w in risk_words)
     is_redev = any(w in text for w in ["재건축", "재개발", "리모델링", "정비사업", "조합", "시공사 선정"])
-    if any(w in text for w in risk_words):
+    has_compete = any(w in text for w in compete_words)
+
+    if has_energy:
+        tags.append(("에너지", "energy"))
+    if has_risk:
         tags.append(("리스크", "risk"))
-        if section != "에너지 사업" and not is_redev:
-            section = "리스크 모니터링"
-    if any(w in text for w in compete_words):
+    if has_compete or is_redev:
         tags.append(("수주경쟁", "compete"))
-        if section not in ("에너지 사업",) or is_redev:
-            if is_redev or section != "리스크 모니터링":
-                section = "수주 경쟁 & 전략"
     if any(w in text for w in infra_words):
         tags.append(("인프라", "infra"))
     if any(w in text for w in strategy_words):
         tags.append(("전략", "strategy"))
 
+    # 섹션 결정 우선순위: 에너지 > 정비/수주 > 리스크 > 전략
+    if has_energy and not is_redev:
+        section = "에너지 사업"
+    elif is_redev or (has_compete and not has_risk):
+        section = "수주 경쟁 & 전략"
+    elif has_risk:
+        section = "리스크 모니터링"
+    else:
+        section = "수주 경쟁 & 전략"
+
     if not tags:
         tags.append(("전략", "strategy"))
-        section = "수주 경쟁 & 전략"
 
     return tags[:3], section
 
