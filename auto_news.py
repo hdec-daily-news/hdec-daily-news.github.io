@@ -20,7 +20,7 @@ SEARCH_KEYWORDS = [
     "롯데건설", "포스코이앤씨",
     "건설사 수주", "시공사 선정", "재건축 시공사", "재개발 수주", "성수 재개발",
     "원전 건설", "해상풍력 건설", "인프라 착공",
-    "건설 공사비", "건설 리스크", "건설 안전사고", "중대재해 건설", "건설 규제",
+    "건설 공사비", "건설 리스크", "건설 안전사고", "중대재해 건설", "건설 규제", "건설공제",
 ]
 
 NAVER_CLIENT_ID = "4EpC74MmQmbBp2bpWpI5"
@@ -396,6 +396,19 @@ def select_top10(articles):
                 if len(picked) >= SECTION_COUNTS[sec]:
                     break
                 if _is_similar(art["title"], seen_titles):
+                    continue
+                picked.append(art)
+                seen_titles.append(art["title"])
+        elif sec == "리스크 모니터링":
+            # 리스크 섹션: 수주성 기사 제외
+            order_noise = ["수주", "입찰", "시공��� 선정", "시공권", "재건축", "재개발",
+                           "리모델링", "정비사업", "사옥", "분양"]
+            for art in pool:
+                if len(picked) >= SECTION_COUNTS[sec]:
+                    break
+                if _is_similar(art["title"], seen_titles):
+                    continue
+                if any(w in art["title"] for w in order_noise):
                     continue
                 picked.append(art)
                 seen_titles.append(art["title"])
