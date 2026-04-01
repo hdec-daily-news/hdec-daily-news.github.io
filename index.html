@@ -21,15 +21,16 @@
         .header-info { display: flex; flex-direction: column; align-items: flex-end; }
         .header-date { font-size: 14px; color: #555; font-weight: 500; }
         .header-schedule { font-size: 11px; color: #aaa; margin-top: 2px; }
-        .badge { display: inline-block; background: #15ad60; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+
 
         /* Main */
         .container { max-width: 960px; margin: 0 auto; padding: 28px 24px 60px; }
 
         /* Legend */
-        .legend { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+        .legend { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
         .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
         .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+        .legend-criteria { margin-left: auto; font-size: 11px; color: #aaa; white-space: nowrap; }
 
         /* Section */
         .section-divider { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }
@@ -82,7 +83,7 @@
                     <span class="header-date">2026년 04월 01일</span>
                     <span class="header-schedule">매일 오전 7:30 / 오후 1:00 자동 업데이트</span>
                 </div>
-                <span class="badge">TOP 10</span>
+
             </div>
         </div>
     </header>
@@ -91,6 +92,7 @@
             <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
             <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
             <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
+            <span class="legend-criteria">네이버 뉴스 API 기반 · 화제성 + 업계 영향도 스코어링 · 섹션별 상위 기사 자동 선정</span>
         </div>
         <div class="section-divider"><span>대형사 수주</span><span class="section-desc">대형 건설사 수주·입찰·시공사 선정 소식</span></div>
 
@@ -99,12 +101,12 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.mydaily.co.kr/page/view/2026040110324271520" target="_blank">삼성물산, 반포푸르지오 리모델링 우선협상대상자 선정</a>
+                        <a href="https://www.topdaily.kr/articles/109491" target="_blank">현대건설, 비싼 '계동본사' 임차비 걱정 없는 이유</a>
                     </h2>
-                    <p class="card-desc">삼성물산 건설부문이 서울 서초구 반포동 소재 반포푸르지오 리모델링 시공자 우선협상대상자로 선정됐다. 지난해 반포푸르지오아파트리모델링주택조합과 ‘넥스트 리모델링’ 파트너십을 구축한데 이어 지난달 시공자... </p>
+                    <p class="card-desc">현대차에 지불하는 연사용료 135억, 현대엔지니어링 임대료로 보전 현대건설이 노후화된 본사 사옥 임차비로 올해 130억원이 넘는 비용을 지불한다. 매년 땅값 상승에 따른 상당한 임차 부담이 발생하는데, 올해도... </p>
                     <div class="card-footer">
-                        <span class="card-source">mydaily.co.kr · 2026-04-01</span>
-                        <a class="card-link" href="https://www.mydaily.co.kr/page/view/2026040110324271520" target="_blank">
+                        <span class="card-source">topdaily.kr · 2026-04-01</span>
+                        <a class="card-link" href="https://www.topdaily.kr/articles/109491" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -118,12 +120,12 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.pinpointnews.co.kr/news/articleView.html?idxno=441752" target="_blank">삼성물산, 마스턴투자운용과 업무협약 체결…스마트빌딩 플랫폼 협력 본...</a>
+                        <a href="http://www.wikileaks-kr.org/news/articleView.html?idxno=185709" target="_blank">삼성물산, 반포푸르지오에 '넥스트 리모델링' 첫선</a>
                     </h2>
-                    <p class="card-desc">사진=삼성물산 건설부문. 삼성물산 건설부문이 마스턴투자운용과 손잡고 상업용 부동산의 디지털 전환과 가치 제고를 위한 협력에 나선다. 삼성물산은 지난달 31일 서울 강동구 상일동 사옥에서 마스턴투자운용과... </p>
+                    <p class="card-desc">삼성물산 건설부문이 지난해 새로운 도심 재생 설루션으로 제안한 '넥스트 리모델링(Next Remodeling)' 사업의 본격적인 시장 진출을 알린다. 삼성물산은 지난해 서울·부산·광주 등의 12개 아파트 단지와 넥스트 리모델링... </p>
                     <div class="card-footer">
-                        <span class="card-source">pinpointnews.co.kr · 2026-04-01</span>
-                        <a class="card-link" href="https://www.pinpointnews.co.kr/news/articleView.html?idxno=441752" target="_blank">
+                        <span class="card-source">wikileaks-kr.org · 2026-03-31</span>
+                        <a class="card-link" href="http://www.wikileaks-kr.org/news/articleView.html?idxno=185709" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -137,31 +139,31 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.asiatime.co.kr/article/20260401500079" target="_blank">삼성물산·마스턴투자운용, 바인드 플랫폼 확장 '맞손'</a>
+                        <a href="https://www.kfenews.co.kr/news/articleView.html?idxno=656282" target="_blank">[알짜뉴스] [창립 57주년] GS건설, 도시정비 수주 8조원 목표…질적 성장...</a>
                     </h2>
-                    <p class="card-desc">지난달 31일 서울 강동구 상일동 사옥서 MOU 체결 바인드, 아주스마트타워 등 적용 '스마트 빌딩' 플랫폼 마스턴투자운용의 상업용 빌딩에 시범 적용·운영 [아시아타임즈=옥한빈 기자] 삼성물산 건설부문(이하 삼성물산)... </p>
-                    <div class="card-footer">
-                        <span class="card-source">asiatime.co.kr · 2026-04-01</span>
-                        <a class="card-link" href="https://www.asiatime.co.kr/article/20260401500079" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.kfenews.co.kr/news/articleView.html?idxno=656304" target="_blank">[창립 57주년] GS건설, 도시정비 수주 8조원 목표…질적 성장 가속</a>
-                    </h2>
-                    <p class="card-desc">GS건설 사옥. 사진=한국금융경제신문 한국금융경제신문=정진아 기자 | GS건설이 창립 57주년을 맞았다. 올해 GS건설은 기술·데이터 기반의 질적 성장을 핵심 기조로 내세우며 도시정비 수주 목표를 8조원으로 제시했다.... </p>
+                    <p class="card-desc">한국금융경제신문=박정범 PD | GS건설이 창립 57주년을 맞았다. GS건설은 올해 기술·데이터 기반의 질적 성장을 위해 AI를 활용한 업무 효율 및 경쟁력 강화, 미래 성장성이 높은 분야 중심의 선택과 집중, 현장 실행력... </p>
                     <div class="card-footer">
                         <span class="card-source">kfenews.co.kr · 2026-03-31</span>
-                        <a class="card-link" href="https://www.kfenews.co.kr/news/articleView.html?idxno=656304" target="_blank">
+                        <a class="card-link" href="https://www.kfenews.co.kr/news/articleView.html?idxno=656282" target="_blank">
+                            기사 원문
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="card-inner">
+                <div class="card-body">
+                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
+                    <h2 class="card-title">
+                        <a href="https://www.newspim.com/news/view/20260331001332" target="_blank">[AI 청약 모집공고] 포스코이앤씨 '오티에르 반포' 분양</a>
+                    </h2>
+                    <p class="card-desc">시공사: 포스코이앤씨 ▲ 공급 규모 일반공급: 43가구 특별공급: 43가구(기관추천 8가구, 다자녀가구 8가구, 신혼부부 18가구, 노부모부양 2가구, 생애최초 7가구) ▲ 전용면적별 1순위 가점제... </p>
+                    <div class="card-footer">
+                        <span class="card-source">뉴스핌 · 2026-04-01</span>
+                        <a class="card-link" href="https://www.newspim.com/news/view/20260331001332" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -176,12 +178,12 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.kmib.co.kr/article/view.asp?arcid=1774944930&amp;code=11151400&amp;cp=nv" target="_blank">HD현대, 조선소 짓는 법도 수출한다… ‘플랫폼 기업’ 도약 시도</a>
+                        <a href="https://www.news1.kr/realestate/general/6121417" target="_blank">수소 저장 기술 경쟁 본격화…GS건설·현대건설 국책과제 착수</a>
                     </h2>
-                    <p class="card-desc">HD현대가 단순 선박 건조를 넘어 조선소 건설·운영 노하우를 상품화해 수출하는 ‘조선 플랫폼 기업’... HD한국조선해양은 조달되는 자금을 친환경 선박 사업 확대, 소형모듈원자로(SMR)·수소연료전지·해상풍력 등... </p>
+                    <p class="card-desc">현대건설(000720)과 GS건설(006360)이 액체수소 저장·적하역 핵심 기술 확보를 위한 국책과제에 참여하며 수소 인프라 시장 선점 경쟁에 본격적으로 뛰어들었다. 1일 국토교통부에 따르면 GS건설과 현대건설은 국토부가... </p>
                     <div class="card-footer">
-                        <span class="card-source">kmib.co.kr · 2026-04-01</span>
-                        <a class="card-link" href="https://www.kmib.co.kr/article/view.asp?arcid=1774944930&amp;code=11151400&amp;cp=nv" target="_blank">
+                        <span class="card-source">뉴스1 · 2026-04-01</span>
+                        <a class="card-link" href="https://www.news1.kr/realestate/general/6121417" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -195,12 +197,12 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
                     <h2 class="card-title">
-                        <a href="http://www.enewstoday.co.kr/news/articleView.html?idxno=2413248" target="_blank">[현장] SMR '1호기' 적기 건설, 글로벌 경쟁 승부 가른다</a>
+                        <a href="http://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&amp;key=20260401.22010009895" target="_blank">기장군, 경주시와 SMR 유치 경쟁</a>
                     </h2>
-                    <p class="card-desc">&quot;향후 3~5년이 글로벌 SMR(소형모듈원전) 산업 주도권 확보의 골든타임으로 평가된다. 한국은 초도 건설 성공을 통해 수출 기반을 확보하고 공급망을 확장해야 하는 결정적 시점에 놓여 있다.&quot; 31일 국회 SMR산업 활성화를... </p>
+                    <p class="card-desc">정부가 신규 원전 건설을 계속 추진하기로 하면서 한국수력원자력이 지방자치단체를 상대로 부지 유치를 공모(국제신문 지난 1월 27일 1면 등 보도)한 결과 부산 기장군과 울산 울주군이 각각 소형모듈원자로(SMR)와... </p>
                     <div class="card-footer">
-                        <span class="card-source">enewstoday.co.kr · 2026-03-31</span>
-                        <a class="card-link" href="http://www.enewstoday.co.kr/news/articleView.html?idxno=2413248" target="_blank">
+                        <span class="card-source">kookje.co.kr · 2026-03-31</span>
+                        <a class="card-link" href="http://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&amp;key=20260401.22010009895" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -212,14 +214,14 @@
         <article class="card">
             <div class="card-inner">
                 <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-energy">에너지</span><span class="tag tag-risk">리스크</span></div>
+                    <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.yna.co.kr/view/AKR20260401018800011?input=1195m" target="_blank">[전국 주요 신문 사설](1일 조간)</a>
+                        <a href="https://daily.hankooki.com/news/articleView.html?idxno=1353705" target="_blank">한수원 &quot;글로벌 SMR 파운드리 도약 추진&quot;</a>
                     </h2>
-                    <p class="card-desc">대한경제 = 건설현장 셧다운 위기, 국토부 주도 속 범정부 대응 나서야 전세사기 대응, 통합정보 구축과... ▲ 경북일보 = 경북 영덕 대형 원전·경주 SMR 유치 총력을 '산재와의 전쟁' 구호로 사업장 안전 못 지킨다... </p>
+                    <p class="card-desc">사진=데일리한국 안희민 기자 한국수력원자력이 글로벌 소형모듈원전(SMR) 파운드리로 도약하겠다고... 이어 &quot;글로벌 빅테크들이 SMR 직접 투자와 전력구매계약(PPA)에 나서고 있다&quot;며 &quot;미국은 건설비의 50%를 지원하고... </p>
                     <div class="card-footer">
-                        <span class="card-source">연합뉴스 · 2026-04-01</span>
-                        <a class="card-link" href="https://www.yna.co.kr/view/AKR20260401018800011?input=1195m" target="_blank">
+                        <span class="card-source">daily.hankooki.com · 2026-03-31</span>
+                        <a class="card-link" href="https://daily.hankooki.com/news/articleView.html?idxno=1353705" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -234,12 +236,12 @@
                 <div class="card-body">
                     <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.idomin.com/news/articleView.html?idxno=2002501" target="_blank">중동전쟁 탓 석유·나프타 수급 차질에 산업계 전체 여파</a>
+                        <a href="https://www.ggilbo.com/news/articleView.html?idxno=1150021" target="_blank">이란발(發) '공급망 쇼크'… 주력 제조업 '비상'</a>
                     </h2>
-                    <p class="card-desc">현대건설은 최근 서울 아파트 신축 현장에 공사비 원가 상승과 공기지연을 알렸다. 현대건설은 자재 협력사가 페인트·창호·몰딩·도배지 등 주요 자잿값을 10% 이상 인상하기로 했고, 전쟁 장기화로 공급 중단 때 준공... </p>
+                    <p class="card-desc">성동원 선임연구원은 &quot;국내 건설사 수주 잔고의 약 40%가 중동 지역에 집중돼 있어, 중동 현장 인력 철수와 막대한 공사 대금 회수 지연으로 건설사의 유동성 위기가 발생할 수 있다&quot;고 전망했다. 이어 &quot;정부와 기업 등... </p>
                     <div class="card-footer">
-                        <span class="card-source">idomin.com · 2026-03-31</span>
-                        <a class="card-link" href="https://www.idomin.com/news/articleView.html?idxno=2002501" target="_blank">
+                        <span class="card-source">ggilbo.com · 2026-03-31</span>
+                        <a class="card-link" href="https://www.ggilbo.com/news/articleView.html?idxno=1150021" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -251,14 +253,14 @@
         <article class="card">
             <div class="card-inner">
                 <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
+                    <div class="card-tags"><span class="tag tag-risk">리스크</span><span class="tag tag-compete">수주경쟁</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.mt.co.kr/industry/2026/04/01/2026033120011892607" target="_blank">중동 리스크 반영 전인데…&quot;공사비 역대 최고치&quot; 비상</a>
+                        <a href="http://www.consumernews.co.kr/news/articleView.html?idxno=752958" target="_blank">대우건설 1분기 도시정비 1.8조 수주 '好好', 연간 목표 36% 채워...성수...</a>
                     </h2>
-                    <p class="card-desc">2월 건설공사비지수가 역대 최고치를 기록했다. 중동전쟁발 원자잿값 상승 영향이 완전히 반영되지 않은 상황에서 공사비가 기록행진을 이어감에 따라 대책마련이 한층 시급해졌다. 31일 한국건설기술연구원... </p>
+                    <p class="card-desc">현대건설과 롯데건설이 1조 원가량으로 2위권을 형성하고 있다. 대우건설의 올해 도시정비사업 수주 목표는 5조 원으로 지난해 수주액 3조7700억 원 대비 32%를 늘려 잡았다. 1분기 수주액은 올해 목표의 36%에 해당한다.... </p>
                     <div class="card-footer">
-                        <span class="card-source">머니투데이 · 2026-04-01</span>
-                        <a class="card-link" href="https://www.mt.co.kr/industry/2026/04/01/2026033120011892607" target="_blank">
+                        <span class="card-source">consumernews.co.kr · 2026-04-01</span>
+                        <a class="card-link" href="http://www.consumernews.co.kr/news/articleView.html?idxno=752958" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
@@ -270,14 +272,14 @@
         <article class="card">
             <div class="card-inner">
                 <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
+                    <div class="card-tags"><span class="tag tag-risk">리스크</span><span class="tag tag-compete">수주경쟁</span></div>
                     <h2 class="card-title">
-                        <a href="https://www.newsway.co.kr/news/view?ud=2026033115160947510" target="_blank">건설·식품업계 '3중고'…원료·물류 상승 직격탄[1500원·100달러 쇼크]</a>
+                        <a href="https://www.arunews.com/news/articleView.html?idxno=61204" target="_blank">공사비 약 1조3,628억원 성수4지구, 시공자 선정 재개</a>
                     </h2>
-                    <p class="card-desc">최근 몇 년간 건설사들이 수주 확대보다 사업별 선별 기조를 보여온 가운데 공사비 상승과 분양 회수 리스크, PF 금리 상승분 등을 따져 '출혈 경쟁이 없는 돈 되는 사업장'에만 입찰을 고민하는 모순된 전략을 견지할... </p>
+                    <p class="card-desc">성수4지구 재개발조합(조합장 정영보)은 이달 1일 시공자 선정을 위한 입찰공고를 냈다. 공고문에 따르면 입찰방법은 일반경쟁입찰, 사업방식은 도급제다. 내역입찰로, 전자조달시스템과 현장접수를 병행한다.... </p>
                     <div class="card-footer">
-                        <span class="card-source">뉴스웨이 · 2026-04-01</span>
-                        <a class="card-link" href="https://www.newsway.co.kr/news/view?ud=2026033115160947510" target="_blank">
+                        <span class="card-source">arunews.com · 2026-04-01</span>
+                        <a class="card-link" href="https://www.arunews.com/news/articleView.html?idxno=61204" target="_blank">
                             기사 원문
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                         </a>
