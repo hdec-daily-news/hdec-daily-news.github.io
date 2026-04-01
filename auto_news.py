@@ -367,6 +367,8 @@ def select_top10(articles):
     """각 섹션별로 독립 랭킹 후 상위 기사 선정"""
     sections = ["에너지 사업", "리스크 모니터링", "대형사 수주"]
     SECTION_COUNTS = {"에너지 사업": 3, "리스크 모니터링": 3, "대형사 수주": 4}
+    TARGET_BUILDERS = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
+                       "롯데건설", "포스코이앤씨"]
 
     # 섹션별로 기사 분류
     buckets = {s: [] for s in sections}
@@ -383,13 +385,27 @@ def select_top10(articles):
         pool = sorted(buckets[sec], key=lambda a: a["_score"], reverse=True)
         picked = []
         seen_titles = []
-        for art in pool:
-            if len(picked) >= SECTION_COUNTS[sec]:
-                break
-            if _is_similar(art["title"], seen_titles):
-                continue
-            picked.append(art)
-            seen_titles.append(art["title"])
+
+        if sec == "대형사 수주":
+            # 대형사 수주: 7대사 제목 언급 기사를 우선 배치
+            builder_pool = [a for a in pool if any(b in a["title"] for b in TARGET_BUILDERS)]
+            other_pool = [a for a in pool if not any(b in a["title"] for b in TARGET_BUILDERS)]
+            for art in builder_pool + other_pool:
+                if len(picked) >= SECTION_COUNTS[sec]:
+                    break
+                if _is_similar(art["title"], seen_titles):
+                    continue
+                picked.append(art)
+                seen_titles.append(art["title"])
+        else:
+            for art in pool:
+                if len(picked) >= SECTION_COUNTS[sec]:
+                    break
+                if _is_similar(art["title"], seen_titles):
+                    continue
+                picked.append(art)
+                seen_titles.append(art["title"])
+
         selected.extend(picked)
 
     return selected
