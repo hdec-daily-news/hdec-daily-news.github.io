@@ -296,11 +296,15 @@ def score_article(art):
         if re.search(pat, text):
             score += pts  # pts is negative
 
-    # 현대건설 직접 언급 가산
+    # 대형 건설사 제목 언급 가산
+    MAJOR_BUILDERS = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
+                      "롯데건설", "포스코이앤씨", "HDC현대산업", "SK에코플랜트",
+                      "호반건설", "두산건설", "한화건설", "코오롱글로벌"]
+    builder_in_title = sum(1 for b in MAJOR_BUILDERS if b in art["title"])
+    if builder_in_title:
+        score += 10 * builder_in_title  # 대형사 제목 언급 시 +10, 복수 언급 시 추가 가산
     if "현대건설" in art["title"]:
-        score += 8
-    elif "현대건설" in text:
-        score += 4
+        score += 5  # 현대건설은 추가 가산
 
     # 화제성 가산: 여러 키워드 검색에 걸린 기사 = 업계 전반에서 주목
     hits = art.get("_hits", 1)
