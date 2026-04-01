@@ -601,7 +601,7 @@ def generate_html(articles):
         .legend {{ display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }}
         .legend-item {{ display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }}
         .legend-dot {{ width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }}
-        .legend-criteria {{ margin-left: auto; font-size: 11px; color: #aaa; white-space: nowrap; }}
+        .legend-criteria {{ margin-left: auto; font-size: 14px; color: #555; font-weight: 500; white-space: nowrap; }}
 
         /* Section */
         .section-divider {{ display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }}
