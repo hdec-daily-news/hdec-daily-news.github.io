@@ -17,7 +17,7 @@ from html import unescape
 # ──────────────────────────────────────
 SEARCH_KEYWORDS = [
     "현대건설", "삼성물산 건설", "DL이앤씨", "대우건설", "GS건설",
-    "롯데건설", "포스코이앤씨", "HDC현대산업개발", "SK에코플랜트", "호반건설",
+    "롯데건설", "포스코이앤씨",
     "건설사 수주", "시공사 선정", "재건축 시공사", "재개발 수주",
     "원전 건설", "해상풍력 건설", "인프라 착공",
     "건설 공사비", "건설 리스크",
@@ -206,6 +206,19 @@ def filter_irrelevant(articles):
         if any(re.search(pat, text) for pat in WEAK_MENTION_PATTERNS):
             continue
 
+        # 7대사 외 건설사가 주체인 기사 제외
+        OTHER_BUILDERS = ["두산건설", "한화건설", "코오롱글로벌", "HDC현대산업",
+                          "SK에코플랜트", "호반건설", "태영건설", "한신공영",
+                          "금호건설", "쌍용건설", "반도건설", "대광건영"]
+        TARGET_BUILDERS = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
+                           "롯데건설", "포스코이앤씨"]
+        title_only = art["title"]
+        # 제목에 타사만 있고 7대사는 없으면 제외
+        has_other = any(b in title_only for b in OTHER_BUILDERS)
+        has_target = any(b in title_only for b in TARGET_BUILDERS)
+        if has_other and not has_target:
+            continue
+
         # 건설업과 관련 없는 기사 제외
         construction_signals = [
             "건설", "시공", "수주", "재건축", "재개발", "리모델링", "분양",
@@ -298,8 +311,7 @@ def score_article(art):
 
     # 대형 건설사 제목 언급 가산
     MAJOR_BUILDERS = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
-                      "롯데건설", "포스코이앤씨", "HDC현대산업", "SK에코플랜트",
-                      "호반건설", "두산건설", "한화건설", "코오롱글로벌"]
+                      "롯데건설", "포스코이앤씨"]
     builder_in_title = sum(1 for b in MAJOR_BUILDERS if b in art["title"])
     if builder_in_title:
         score += 10 * builder_in_title  # 대형사 제목 언급 시 +10, 복수 언급 시 추가 가산
@@ -408,8 +420,7 @@ def classify_article(art):
     # 정비사업 판단은 제목 기준 (본문에 살짝 언급된 것은 무시)
     # 대형사 수주 판단: 제목에 수주/입찰 관련 or 대형 건설사명 + 수주성 키워드
     major_builders = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
-                      "롯데건설", "포스코이앤씨", "HDC현대산업", "SK에코플랜트", "호반건설",
-                      "두산건설", "한화건설", "코오롱글로벌"]
+                      "롯데건설", "포스코이앤씨"]
     order_words = ["수주", "입찰", "응찰", "낙찰", "시공사", "시공권", "선정",
                    "재건축", "재개발", "리모델링", "정비사업", "사옥", "신축",
                    "도급", "계약", "턴키", "책임준공"]
