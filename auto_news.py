@@ -457,18 +457,12 @@ def classify_article(art):
         tags.append(("전략", "strategy"))
 
     # 섹션 결정 우선순위: 에너지 > 리스크 > 대형사 수주
-    if has_energy and not (is_order or has_compete):
-        section = "에너지 사업"
-    elif has_energy and has_risk:
-        section = "에너지 사업"
-    elif has_risk and not (is_order or has_compete):
-        section = "리스크 모니터링"
-    elif is_order or has_compete:
-        section = "대형사 수주"
-    elif has_energy:
+    if has_energy:
         section = "에너지 사업"
     elif has_risk:
         section = "리스크 모니터링"
+    elif is_order or has_compete:
+        section = "대형사 수주"
     else:
         section = "대형사 수주"
 
