@@ -592,15 +592,16 @@ def generate_html(articles):
         .header-info {{ display: flex; flex-direction: column; align-items: flex-end; }}
         .header-date {{ font-size: 14px; color: #555; font-weight: 500; }}
         .header-schedule {{ font-size: 11px; color: #aaa; margin-top: 2px; }}
-        .badge {{ display: inline-block; background: #15ad60; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }}
+
 
         /* Main */
         .container {{ max-width: 960px; margin: 0 auto; padding: 28px 24px 60px; }}
 
         /* Legend */
-        .legend {{ display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }}
+        .legend {{ display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }}
         .legend-item {{ display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }}
         .legend-dot {{ width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }}
+        .legend-criteria {{ margin-left: auto; font-size: 11px; color: #aaa; white-space: nowrap; }}
 
         /* Section */
         .section-divider {{ display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }}
@@ -653,7 +654,7 @@ def generate_html(articles):
                     <span class="header-date">{today}</span>
                     <span class="header-schedule">매일 오전 7:30 / 오후 1:00 자동 업데이트</span>
                 </div>
-                <span class="badge">TOP 10</span>
+
             </div>
         </div>
     </header>
@@ -662,6 +663,7 @@ def generate_html(articles):
             <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
             <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
             <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
+            <span class="legend-criteria">네이버 뉴스 API 기반 · 화제성 + 업계 영향도 스코어링 · 섹션별 상위 기사 자동 선정</span>
         </div>
         {cards_html}
     </main>
