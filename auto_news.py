@@ -17,7 +17,8 @@ from html import unescape
 # ──────────────────────────────────────
 SEARCH_KEYWORDS = [
     "현대건설", "삼성물산 건설", "DL이앤씨", "대우건설", "GS건설",
-    "재건축 시공사", "재개발 수주", "건설사 수주",
+    "롯데건설", "포스코이앤씨", "HDC현대산업개발", "SK에코플랜트", "호반건설",
+    "건설사 수주", "시공사 선정", "재건축 시공사", "재개발 수주",
     "원전 건설", "해상풍력 건설", "인프라 착공",
     "건설 공사비", "건설 리스크",
 ]
@@ -238,12 +239,17 @@ IMPACT_KEYWORDS = [
     ("비용", 6), ("노조", 8), ("교섭", 8), ("파업", 10),
     ("GTX", 10), ("LOC", 8), ("증액", 8),
     ("해외", 6), ("CEO", 6), ("대표", 4),
-    ("경쟁", 6), ("단독", 8), ("타운화", 10),
-    # 정비사업
-    ("재건축", 12), ("재개발", 12), ("리모델링", 12), ("정비사업", 12),
-    ("조합", 8), ("시공사 선정", 10), ("수주전", 10), ("정비구역", 8),
-    ("관리처분", 8), ("사업시행", 8), ("철거", 6), ("이주", 6),
-    ("조합원", 6), ("분담금", 8), ("입찰", 8), ("응찰", 8),
+]
+
+# 대형사 수주 키워드
+ORDER_KEYWORDS = [
+    ("수주", 12), ("입찰", 10), ("응찰", 10), ("낙찰", 12),
+    ("시공사 선정", 12), ("시공권", 10), ("수주전", 10),
+    ("재건축", 10), ("재개발", 10), ("리모델링", 10), ("정비사업", 10),
+    ("사옥", 8), ("신축", 6), ("도급", 8), ("턴키", 8),
+    ("책임준공", 8), ("계약", 6), ("단독", 8),
+    ("경쟁", 6), ("타운화", 10),
+    ("조합", 6), ("분담금", 6), ("관리처분", 6),
 ]
 
 NOVELTY_KEYWORDS = [
@@ -275,6 +281,10 @@ def score_article(art):
             score += pts
 
     for kw, pts in IMPACT_KEYWORDS:
+        if kw in text:
+            score += pts
+
+    for kw, pts in ORDER_KEYWORDS:
         if kw in text:
             score += pts
 
@@ -339,8 +349,8 @@ def _is_similar(title, seen_titles):
 
 def select_top10(articles):
     """각 섹션별로 독립 랭킹 후 상위 기사 선정"""
-    sections = ["에너지 사업", "리스크 모니터링", "수주 경쟁 & 전략"]
-    SECTION_COUNTS = {"에너지 사업": 3, "리스크 모니터링": 3, "수주 경쟁 & 전략": 4}
+    sections = ["에너지 사업", "리스크 모니터링", "대형사 수주"]
+    SECTION_COUNTS = {"에너지 사업": 3, "리스크 모니터링": 3, "대형사 수주": 4}
 
     # 섹션별로 기사 분류
     buckets = {s: [] for s in sections}
@@ -382,9 +392,9 @@ def classify_article(art):
                     "신재생", "부유식"]
     risk_words = ["비상", "리스크", "위기", "전쟁", "봉쇄", "폭등", "품귀",
                   "수급난", "지연", "공사비", "원가", "인상", "차질", "노조", "교섭"]
-    compete_words = ["경쟁", "수주전", "입찰", "응찰", "단독", "타운화", "압구정",
-                    "재건축", "재개발", "리모델링", "정비사업", "조합", "시공사 선정",
-                    "정비구역", "관리처분", "사업시행", "분담금"]
+    compete_words = ["수주", "수주전", "입찰", "응찰", "낙찰", "단독", "시공사 선정",
+                    "재건축", "재개발", "리모델링", "정비사업", "사옥", "신축",
+                    "도급", "계약", "턴키", "설계시공", "책임준공"]
     infra_words = ["GTX", "인프라", "LOC", "착공", "공공"]
     strategy_words = ["해외", "CEO", "전략", "확장", "협약", "MOU", "공동개발"]
 
@@ -392,8 +402,16 @@ def classify_article(art):
     has_energy = any(w in text for w in energy_words)
     has_risk = any(w in text for w in risk_words)
     # 정비사업 판단은 제목 기준 (본문에 살짝 언급된 것은 무시)
-    redev_words = ["재건축", "재개발", "리모델링", "정비사업", "시공사 선정"]
-    is_redev = any(w in title for w in redev_words)
+    # 대형사 수주 판단: 제목에 수주/입찰 관련 or 대형 건설사명 + 수주성 키워드
+    major_builders = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
+                      "롯데건설", "포스코이앤씨", "HDC현대산업", "SK에코플랜트", "호반건설",
+                      "두산건설", "한화건설", "코오롱글로벌"]
+    order_words = ["수주", "입찰", "응찰", "낙찰", "시공사", "시공권", "선정",
+                   "재건축", "재개발", "리모델링", "정비사업", "사옥", "신축",
+                   "도급", "계약", "턴키", "책임준공"]
+    has_builder_in_title = any(b in title for b in major_builders)
+    has_order_in_title = any(w in title for w in order_words)
+    is_order = has_order_in_title or (has_builder_in_title and any(w in text for w in order_words))
     has_compete = any(w in title for w in compete_words)
 
     if has_energy:
@@ -408,8 +426,8 @@ def classify_article(art):
         tags.append(("전략", "strategy"))
 
     # 섹션 결정: 제목 기반 주제 우선
-    if is_redev or has_compete:
-        section = "수주 경쟁 & 전략"
+    if is_order or has_compete:
+        section = "대형사 수주"
     elif has_energy and not has_risk:
         section = "에너지 사업"
     elif has_risk:
@@ -417,7 +435,7 @@ def classify_article(art):
     elif has_energy:
         section = "에너지 사업"
     else:
-        section = "수주 경쟁 & 전략"
+        section = "대형사 수주"
 
     if not tags:
         tags.append(("전략", "strategy"))
@@ -433,7 +451,7 @@ def generate_html(articles):
     today_short = datetime.now(KST).strftime("%Y.%m.%d")
 
     # 섹션별 분류
-    sections = {"에너지 사업": [], "리스크 모니터링": [], "수주 경쟁 & 전략": []}
+    sections = {"에너지 사업": [], "리스크 모니터링": [], "대형사 수주": []}
     for i, art in enumerate(articles):
         tags, section = classify_article(art)
         art["_tags"] = tags
@@ -442,7 +460,7 @@ def generate_html(articles):
         if section in sections:
             sections[section].append(art)
         else:
-            sections["수주 경쟁 & 전략"].append(art)
+            sections["대형사 수주"].append(art)
 
     def priority_class(art):
         text = art["title"] + " " + art.get("description", "")
@@ -481,7 +499,7 @@ def generate_html(articles):
         return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
     cards_html = ""
-    section_order = ["에너지 사업", "리스크 모니터링", "수주 경쟁 & 전략"]
+    section_order = ["에너지 사업", "리스크 모니터링", "대형사 수주"]
     for sec in section_order:
         arts = sections.get(sec, [])
         if not arts:
