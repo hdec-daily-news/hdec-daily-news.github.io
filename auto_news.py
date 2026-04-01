@@ -492,7 +492,13 @@ def generate_html(articles):
     sections = {"대형사 수주": [], "에너지 사업": [], "리스크 모니터링": []}
     for i, art in enumerate(articles):
         tags, section = classify_article(art)
-        art["_tags"] = tags
+        # 섹션에 맞는 태그만 표시
+        section_tag = {
+            "대형사 수주": ("수주경쟁", "compete"),
+            "에너지 사업": ("에너지", "energy"),
+            "리스크 모니터링": ("리스크", "risk"),
+        }
+        art["_tags"] = [section_tag.get(section, tags[0] if tags else ("수주경쟁", "compete"))]
         art["_section"] = section
         art["_rank"] = i + 1
         if section in sections:
