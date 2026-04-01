@@ -365,8 +365,8 @@ def _is_similar(title, seen_titles):
 
 def select_top10(articles):
     """각 섹션별로 독립 랭킹 후 상위 기사 선정"""
-    sections = ["에너지 사업", "리스크 모니터링", "대형사 수주"]
-    SECTION_COUNTS = {"에너지 사업": 3, "리스크 모니터링": 3, "대형사 수주": 4}
+    sections = ["대형사 수주", "에너지 사업", "리스크 모니터링"]
+    SECTION_COUNTS = {"대형사 수주": 4, "에너지 사업": 3, "리스크 모니터링": 3}
     TARGET_BUILDERS = ["현대건설", "삼성물산", "DL이앤씨", "대우건설", "GS건설",
                        "롯데건설", "포스코이앤씨"]
 
@@ -451,10 +451,7 @@ def classify_article(art):
         tags.append(("리스크", "risk"))
     if has_compete or is_order:
         tags.append(("수주경쟁", "compete"))
-    if any(w in text for w in infra_words):
-        tags.append(("인프라", "infra"))
-    if any(w in text for w in strategy_words):
-        tags.append(("전략", "strategy"))
+    # 인프라/전략 태그 미사용
 
     # 섹션 결정 우선순위: 에너지 > 리스크 > 대형사 수주
     if has_energy:
@@ -467,7 +464,7 @@ def classify_article(art):
         section = "대형사 수주"
 
     if not tags:
-        tags.append(("전략", "strategy"))
+        tags.append(("수주경쟁", "compete"))
 
     return tags[:3], section
 
@@ -480,7 +477,7 @@ def generate_html(articles):
     today_short = datetime.now(KST).strftime("%Y.%m.%d")
 
     # 섹션별 분류
-    sections = {"에너지 사업": [], "리스크 모니터링": [], "대형사 수주": []}
+    sections = {"대형사 수주": [], "에너지 사업": [], "리스크 모니터링": []}
     for i, art in enumerate(articles):
         tags, section = classify_article(art)
         art["_tags"] = tags
@@ -528,7 +525,7 @@ def generate_html(articles):
         return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
     cards_html = ""
-    section_order = ["에너지 사업", "리스크 모니터링", "대형사 수주"]
+    section_order = ["대형사 수주", "에너지 사업", "리스크 모니터링"]
     for sec in section_order:
         arts = sections.get(sec, [])
         if not arts:
@@ -604,8 +601,6 @@ def generate_html(articles):
         .tag-energy {{ background: #e8f8ef; color: #15ad60; }}
         .tag-risk {{ background: #fdecea; color: #d32f2f; }}
         .tag-compete {{ background: #e3f2fd; color: #1976d2; }}
-        .tag-infra {{ background: #f3e5f5; color: #7b1fa2; }}
-        .tag-strategy {{ background: #fff8e1; color: #f9a825; }}
         .card-title {{ font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 6px; }}
         .card-title a {{ color: inherit; text-decoration: none; transition: color 0.2s; }}
         .card-title a:hover {{ color: #15ad60; }}
@@ -648,11 +643,9 @@ def generate_html(articles):
     </header>
     <main class="container">
         <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>대형사 수주</div>
             <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
             <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#7b1fa2"></div>인프라</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#f9a825"></div>전략</div>
         </div>
         {cards_html}
     </main>
