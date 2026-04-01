@@ -388,10 +388,13 @@ def classify_article(art):
     infra_words = ["GTX", "인프라", "LOC", "착공", "공공"]
     strategy_words = ["해외", "CEO", "전략", "확장", "협약", "MOU", "공동개발"]
 
+    title = art["title"]
     has_energy = any(w in text for w in energy_words)
     has_risk = any(w in text for w in risk_words)
-    is_redev = any(w in text for w in ["재건축", "재개발", "리모델링", "정비사업", "조합", "시공사 선정"])
-    has_compete = any(w in text for w in compete_words)
+    # 정비사업 판단은 제목 기준 (본문에 살짝 언급된 것은 무시)
+    redev_words = ["재건축", "재개발", "리모델링", "정비사업", "시공사 선정"]
+    is_redev = any(w in title for w in redev_words)
+    has_compete = any(w in title for w in compete_words)
 
     if has_energy:
         tags.append(("에너지", "energy"))
@@ -404,13 +407,15 @@ def classify_article(art):
     if any(w in text for w in strategy_words):
         tags.append(("전략", "strategy"))
 
-    # 섹션 결정 우선순위: 에너지 > 정비/수주 > 리스크 > 전략
-    if has_energy and not is_redev:
-        section = "에너지 사업"
-    elif is_redev or (has_compete and not has_risk):
+    # 섹션 결정: 제목 기반 주제 우선
+    if is_redev or has_compete:
         section = "수주 경쟁 & 전략"
+    elif has_energy and not has_risk:
+        section = "에너지 사업"
     elif has_risk:
         section = "리스크 모니터링"
+    elif has_energy:
+        section = "에너지 사업"
     else:
         section = "수주 경쟁 & 전략"
 
