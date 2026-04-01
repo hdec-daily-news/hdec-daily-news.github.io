@@ -418,7 +418,7 @@ def classify_article(art):
         tags.append(("에너지", "energy"))
     if has_risk:
         tags.append(("리스크", "risk"))
-    if has_compete or is_redev:
+    if has_compete or is_order:
         tags.append(("수주경쟁", "compete"))
     if any(w in text for w in infra_words):
         tags.append(("인프라", "infra"))
