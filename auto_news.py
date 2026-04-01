@@ -454,7 +454,8 @@ def classify_article(art):
                    "도급", "계약", "턴키", "책임준공"]
     has_builder_in_title = any(b in title for b in major_builders)
     has_order_in_title = any(w in title for w in order_words)
-    is_order = has_order_in_title or (has_builder_in_title and any(w in text for w in order_words))
+    # 대형사명 + 본문 수주 키워드만으로는 부족 → 제목�� 수주성 키워드 필수
+    is_order = has_order_in_title
     has_compete = any(w in title for w in compete_words)
 
     if has_energy:
