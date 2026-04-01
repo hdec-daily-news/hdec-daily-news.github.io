@@ -456,15 +456,19 @@ def classify_article(art):
     if any(w in text for w in strategy_words):
         tags.append(("전략", "strategy"))
 
-    # 섹션 결정: 제목 기반 주제 우선
-    if is_order or has_compete:
+    # 섹션 결정 우선순위: 에너지 > 리스크 > 대형사 수주
+    if has_energy and not (is_order or has_compete):
+        section = "에너지 사업"
+    elif has_energy and has_risk:
+        section = "에너지 사업"
+    elif has_risk and not (is_order or has_compete):
+        section = "리스크 모니터링"
+    elif is_order or has_compete:
         section = "대형사 수주"
-    elif has_energy and not has_risk:
+    elif has_energy:
         section = "에너지 사업"
     elif has_risk:
         section = "리스크 모니터링"
-    elif has_energy:
-        section = "에너지 사업"
     else:
         section = "대형사 수주"
 
