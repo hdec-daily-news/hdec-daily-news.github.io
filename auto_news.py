@@ -542,7 +542,10 @@ def generate_html(articles):
         arts = sections.get(sec, [])
         if not arts:
             continue
-        cards_html += f'<div class="section-divider">{sec}</div>\n'
+        section_desc = {"대형사 수주": "7대 건설사 수주·입찰·시공사 선정 소식", "에너지 사업": "원전·SMR·해상풍력·수소 등 에너지 인프라 동향", "리스크 모니터링": "공사비·안전사고·정책 변경·금융리스크 등 건설사 영향 이슈"}
+        desc = section_desc.get(sec, "")
+        divider = '<div class="section-divider"><span>' + sec + '</span><span class="section-desc">' + desc + '</span></div>'
+        cards_html += divider + chr(10)
         for art in arts:
             tags_html = make_tags_html(art["_tags"])
             cards_html += f"""
