@@ -643,7 +643,7 @@ def generate_html(articles):
     </header>
     <main class="container">
         <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>대형사 수주</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
             <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
             <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
         </div>
