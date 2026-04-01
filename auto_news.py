@@ -602,6 +602,7 @@ def generate_html(articles):
         /* Section */
         .section-divider {{ display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }}
         .section-divider::after {{ content: ''; flex: 1; height: 1px; background: #ddd; }}
+        .section-desc {{ font-size: 11px; font-weight: 400; color: #999; margin-left: auto; white-space: nowrap; }}
 
         /* Cards */
         .card {{ background: #ffffff; border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 12px; overflow: hidden; transition: all 0.2s ease; }}
