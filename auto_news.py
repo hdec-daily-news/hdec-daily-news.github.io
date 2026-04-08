@@ -8,6 +8,8 @@ import json
 import os
 import re
 import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from datetime import datetime, timedelta, timezone
 KST = timezone(timedelta(hours=9))
 from html import unescape
@@ -57,7 +59,7 @@ def collect_naver_news():
         for start in range(1, 400, 100):
             params = {"query": keyword, "display": 100, "start": start, "sort": "date"}
             try:
-                resp = requests.get(url, headers=headers, params=params, timeout=10)
+                resp = requests.get(url, headers=headers, params=params, timeout=10, verify=False)
                 resp.raise_for_status()
                 data = resp.json()
             except Exception as e:
