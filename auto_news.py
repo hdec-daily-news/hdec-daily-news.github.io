@@ -503,14 +503,14 @@ def classify_article(art):
 # 6) HTML 생성
 # ──────────────────────────────────────
 def generate_html(articles):
-    today = datetime.now(KST).strftime("%Y년 %m월 %d일")
-    today_short = datetime.now(KST).strftime("%Y.%m.%d")
+    now = datetime.now(KST)
+    today = now.strftime("%Y년 %m월 %d일 %H:%M")
+    today_short = now.strftime("%Y.%m.%d")
 
     # 섹션별 분류
     sections = {"대형사 수주": [], "에너지 사업": [], "리스크 모니터링": []}
     for i, art in enumerate(articles):
         tags, section = classify_article(art)
-        # 섹션에 맞는 태그만 표시
         section_tag = {
             "대형사 수주": ("수주경쟁", "compete"),
             "에너지 사업": ("에너지", "energy"),
@@ -558,50 +558,136 @@ def generate_html(articles):
         return source_map.get(domain, domain)
 
     def escape(text):
-        return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+        return (text or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
-    cards_html = ""
+    # 섹션별 아이콘 / 라벨
+    SECTION_META = {
+        "대형사 수주":   {"icon": "🏢", "label": "대형사 수주",      "desc": "대형 건설사 수주·입찰·시공사 선정"},
+        "에너지 사업":   {"icon": "⚡", "label": "에너지 사업",       "desc": "원전·SMR·해상풍력·수소 등 인프라"},
+        "리스크 모니터링": {"icon": "⚠️", "label": "리스크 모니터링",  "desc": "공사비·안전·정책·금융 리스크"},
+    }
+
     section_order = ["대형사 수주", "에너지 사업", "리스크 모니터링"]
+    sections_html_list = []
+    total_count = 0
+
     for sec in section_order:
         arts = sections.get(sec, [])
+        total_count += len(arts)
+        meta = SECTION_META[sec]
+        top = arts[:2]
+        rest = arts[2:]
+
+        # Top 2 card
+        top_html = ""
+        for a in top:
+            top_html += f'''
+        <a class="top-card" href="{escape(a['link'])}" target="_blank" rel="noopener">
+          <div class="top-card-source">{escape(get_source(a['link']))} · {a['date'][5:].replace('-', '.') if len(a['date']) >= 10 else a['date']}</div>
+          <h3 class="top-card-title">{escape(a['title'])}</h3>
+          <p class="top-card-desc">{escape(a.get('description', '')[:160])}</p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a>'''
+
+        # Rest list
+        rest_html = ""
+        for a in rest:
+            d = a['date'][5:].replace('-', '.') if len(a['date']) >= 10 else a['date']
+            rest_html += f'''
+          <li class="headline">
+            <a href="{escape(a['link'])}" target="_blank" rel="noopener">
+              <span class="hl-title">{escape(a['title'])}</span>
+              <span class="hl-meta">{escape(get_source(a['link']))} · {d}</span>
+            </a>
+          </li>'''
+
         if not arts:
-            continue
-        section_desc = {"대형사 수주": "대형 건설사 수주·입찰·시공사 선정 소식", "에너지 사업": "원전·SMR·해상풍력·수소 등 에너지 인프라 동향", "리스크 모니터링": "공사비·안전사고·정책 변경·금융리스크 등 건설사 영향 이슈"}
-        desc = section_desc.get(sec, "")
-        divider = '<div class="section-divider"><span>' + sec + '</span><span class="section-desc">' + desc + '</span></div>'
-        cards_html += divider + chr(10)
-        for art in arts:
-            tags_html = make_tags_html(art["_tags"])
-            cards_html += f"""
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags">{tags_html}</div>
-                    <h2 class="card-title">
-                        <a href="{escape(art['link'])}" target="_blank">{escape(art['title'])}</a>
-                    </h2>
-                    <p class="card-desc">{escape(art.get('description', '')[:150])}</p>
-                    <div class="card-footer">
-                        <span class="card-source">{get_source(art['link'])} · {art['date']}</span>
-                        <a class="card-link" href="{escape(art['link'])}" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-"""
+            body = '<div class="empty">오늘의 주요 기사 없음</div>'
+        else:
+            body = ""
+            if top:
+                body += f'<div class="top-cards">{top_html}</div>'
+            if rest:
+                body += f'<ul class="headlines">{rest_html}</ul>'
+
+        sections_html_list.append(f'''
+    <section class="section">
+      <div class="section-head">
+        <div class="section-icon">{meta["icon"]}</div>
+        <div class="section-meta">
+          <h2 class="section-title">{meta["label"]}</h2>
+          <div class="section-count">{len(arts)}건</div>
+        </div>
+      </div>
+      {body}
+    </section>''')
+
+    sections_html = "".join(sections_html_list)
 
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDEC DAILY NEWS - {today}</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+    <title>건설산업 동향 Daily | HDEC Daily News</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-wrap"><div class="bg-overlay"></div></div>
+
+<main class="container">
+
+  <header class="site-header">
+    <a href="https://hdec-daily-news.github.io/landing/" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">HDEC Daily News</span>
+    </a>
+    <div class="site-meta">
+      <span>업데이트 {today}</span>
+      <span class="sep">·</span>
+      <span>매일 오전 7:30 / 오후 1:00 자동</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">🏗️ DAILY UPDATE</div>
+    <h1>
+      <span class="hero-sub">매일 업데이트되는</span>
+      <span class="hero-main">건설산업 동향</span>
+    </h1>
+    <p class="hero-desc">
+      대형 건설사 수주·에너지 인프라·리스크 이슈를<br>
+      <strong>주요 경제지·종합지</strong>에서 AI 자동 선별해 정리합니다.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">{total_count}</span><span class="stat-lab">TOTAL</span></div>
+      <div class="stat"><span class="stat-num">{len(sections.get("대형사 수주", []))}</span><span class="stat-lab">수주</span></div>
+      <div class="stat"><span class="stat-num">{len(sections.get("에너지 사업", []))}</span><span class="stat-lab">에너지</span></div>
+      <div class="stat"><span class="stat-num">{len(sections.get("리스크 모니터링", []))}</span><span class="stat-lab">리스크</span></div>
+    </div>
+  </section>
+
+  {sections_html}
+
+  <footer class="site-footer">
+    <div>현대건설 글로벌사업부 · 내부 업무용</div>
+    <div class="tech">Powered by Naver News API · GitHub Pages</div>
+  </footer>
+
+</main>
+</body>
+</html>"""
+    return html
+
+
+def _unused_legacy_css_block():
+    # (구 인라인 CSS 블록 — 외부 style.css 사용으로 대체됨)
+    """
+    * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{ font-family: 'Noto Sans KR', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }}
 
         /* Header - 현대건설 CI */

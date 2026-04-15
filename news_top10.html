@@ -3,295 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDEC DAILY NEWS - 2026년 04월 15일</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans KR', sans-serif; background: #f5f5f5; color: #222; min-height: 100vh; }
-
-        /* Header - 현대건설 CI */
-        .header { background: #ffffff; padding: 28px 0; border-bottom: 3px solid #15ad60; }
-        .header-content { max-width: 960px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-        .header-left { display: flex; align-items: center; gap: 16px; }
-        .logo-img { height: 36px; }
-        .header-divider { width: 1px; height: 32px; background: #ddd; }
-        .header-title { display: flex; flex-direction: column; }
-        .header h1 { font-size: 22px; font-weight: 800; color: #1a1a1a; letter-spacing: 1px; }
-        .header-right { display: flex; align-items: center; gap: 16px; }
-        .header-info { display: flex; flex-direction: column; align-items: flex-end; }
-        .header-date { font-size: 14px; color: #555; font-weight: 500; }
-        .header-schedule { font-size: 11px; color: #aaa; margin-top: 2px; }
-
-
-        /* Main */
-        .container { max-width: 960px; margin: 0 auto; padding: 28px 24px 60px; }
-
-        /* Legend */
-        .legend { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
-        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
-        .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-        .legend-criteria { margin-left: auto; font-size: 14px; color: #555; font-weight: 500; white-space: nowrap; }
-
-        /* Section */
-        .section-divider { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 13px; font-weight: 700; color: #15ad60; letter-spacing: 0.5px; }
-        .section-divider::after { content: ''; flex: 1; height: 1px; background: #ddd; }
-        .section-desc { font-size: 11px; font-weight: 400; color: #999; margin-left: auto; white-space: nowrap; }
-
-        /* Cards */
-        .card { background: #ffffff; border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 12px; overflow: hidden; transition: all 0.2s ease; }
-        .card:hover { border-color: #15ad60; box-shadow: 0 2px 12px rgba(21, 173, 96, 0.08); }
-        .card-inner { padding: 20px 24px; }
-        .card-body { flex: 1; min-width: 0; }
-        .card-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.2px; }
-        .tag-energy { background: #e8f8ef; color: #15ad60; }
-        .tag-risk { background: #fdecea; color: #d32f2f; }
-        .tag-compete { background: #e3f2fd; color: #1976d2; }
-        .card-title { font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.6; margin-bottom: 6px; }
-        .card-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
-        .card-title a:hover { color: #15ad60; }
-        .card-desc { font-size: 13px; color: #777; line-height: 1.7; margin-bottom: 12px; }
-        .card-footer { display: flex; align-items: center; justify-content: space-between; }
-        .card-source { font-size: 12px; color: #aaa; }
-        .card-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #15ad60; text-decoration: none; font-weight: 600; }
-        .card-link:hover { color: #0d8c4d; }
-        .card-link svg { width: 13px; height: 13px; }
-
-        /* Footer */
-        .footer { text-align: center; padding: 28px 24px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #aaa; background: #fff; }
-
-        @media (max-width: 640px) {
-            .header-content { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .header h1 { font-size: 20px; }
-            .card-inner { padding: 16px; }
-            .card-title { font-size: 14px; }
-        }
-    </style>
+    <title>건설산업 동향 Daily | HDEC Daily News</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <img src="logo.png" alt="HYUNDAI E&C" class="logo-img">
-                <div class="header-divider"></div>
-                <div class="header-title">
-                    <h1>DAILY NEWS</h1>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="header-info">
-                    <span class="header-date">2026년 04월 15일</span>
-                    <span class="header-schedule">매일 오전 7:30 / 오후 1:00 자동 업데이트</span>
-                </div>
 
-            </div>
+<div class="bg-wrap"><div class="bg-overlay"></div></div>
+
+<main class="container">
+
+  <header class="site-header">
+    <a href="https://hdec-daily-news.github.io/landing/" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">HDEC Daily News</span>
+    </a>
+    <div class="site-meta">
+      <span>업데이트 2026년 04월 15일 10:00</span>
+      <span class="sep">·</span>
+      <span>매일 오전 7:30 / 오후 1:00 자동</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">🏗️ DAILY UPDATE</div>
+    <h1>
+      <span class="hero-sub">매일 업데이트되는</span>
+      <span class="hero-main">건설산업 동향</span>
+    </h1>
+    <p class="hero-desc">
+      대형 건설사 수주·에너지 인프라·리스크 이슈를<br>
+      <strong>주요 경제지·종합지</strong>에서 AI 자동 선별해 정리합니다.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">10</span><span class="stat-lab">TOTAL</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-lab">수주</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-lab">에너지</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-lab">리스크</span></div>
+    </div>
+  </section>
+
+  
+    <section class="section">
+      <div class="section-head">
+        <div class="section-icon">🏢</div>
+        <div class="section-meta">
+          <h2 class="section-title">대형사 수주</h2>
+          <div class="section-count">4건</div>
         </div>
-    </header>
-    <main class="container">
-        <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#1976d2"></div>수주경쟁</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#15ad60"></div>에너지</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>리스크</div>
-            <span class="legend-criteria">네이버 뉴스 API 기반 · 화제성 + 업계 영향도 스코어링 · 섹션별 상위 기사 자동 선정</span>
+      </div>
+      <div class="top-cards">
+        <a class="top-card" href="https://www.newspim.com/news/view/20260414001339" target="_blank" rel="noopener">
+          <div class="top-card-source">뉴스핌 · 04.14</div>
+          <h3 class="top-card-title">현대건설 &quot;압구정5구역 수주전, 클린수주 원칙 지킬 것&quot;</h3>
+          <p class="top-card-desc">현대건설은 최근 압구정5구역 재건축 정비사업 입찰 과정에서 발생한 입찰서류 무단 촬영 논란과 관련해, 공정 경쟁의 원칙을 훼손하는 행위에 대해 엄정하게 대응하겠다고 14일 밝혔다. 또한 불공정 행위가 있었음에도... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a>
+        <a class="top-card" href="https://www.newsis.com/view/NISX20260414_0003591046" target="_blank" rel="noopener">
+          <div class="top-card-source">뉴시스 · 04.14</div>
+          <h3 class="top-card-title">현대건설, 압구정5구역 입찰서류 경쟁사 도촬에 '법적대응' 시사</h3>
+          <p class="top-card-desc">현대건설이 서울 압구정 5구역 시공사 선정 과정에서 발생한 경쟁사의 입찰 서류 무단 촬영에 대해 엄정 대응을 시사했다. 현대건설은 14일 입장문을 내고 최근 압구정5구역 재건축 정비사업 입찰 과정에서 발생한 입찰서류... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a></div><ul class="headlines">
+          <li class="headline">
+            <a href="https://www.hankyung.com/article/2026041404046" target="_blank" rel="noopener">
+              <span class="hl-title">압구정 5구역서 입찰서류 '무단 촬영' 소동…현대건설 &quot;클린수주&quot;</span>
+              <span class="hl-meta">한국경제 · 04.14</span>
+            </a>
+          </li>
+          <li class="headline">
+            <a href="https://news.bbsi.co.kr/news/articleView.html?idxno=4078324" target="_blank" rel="noopener">
+              <span class="hl-title">&quot;현대건설은 조합원의 이익을 위해, 클린수주 원칙 지켜가겠습니다&quot;</span>
+              <span class="hl-meta">news.bbsi.co.kr · 04.14</span>
+            </a>
+          </li></ul>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div class="section-icon">⚡</div>
+        <div class="section-meta">
+          <h2 class="section-title">에너지 사업</h2>
+          <div class="section-count">3건</div>
         </div>
-        <div class="section-divider"><span>대형사 수주</span><span class="section-desc">대형 건설사 수주·입찰·시공사 선정 소식</span></div>
+      </div>
+      <div class="top-cards">
+        <a class="top-card" href="https://www.smarttoday.co.kr/ko-kr/articles/106482" target="_blank" rel="noopener">
+          <div class="top-card-source">smarttoday.co.kr · 04.14</div>
+          <h3 class="top-card-title">‘최악 불황’ 철강業, 고부가제품으로 수익 활로 모색</h3>
+          <p class="top-card-desc">출처=현대제철 특히 최근의 인공지능(AI) 데이터센터 수요 확대에 따른 주요국 ESS 건설 추진 움직임 등과... 소형모듈원전(SMR)용 후판 양산 체계도 구축했다. 세아제강은 전남 신안 우이도 해상풍력 프로젝트에... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a>
+        <a class="top-card" href="https://www.mediapen.com/news/view/1093419" target="_blank" rel="noopener">
+          <div class="top-card-source">mediapen.com · 04.15</div>
+          <h3 class="top-card-title">'에너지 동맹' 넓히는 삼성물산, 글로벌 수주전 주도권 잡는다</h3>
+          <p class="top-card-desc">삼성물산 건설부문(삼성물산)이 에너지 사업을 축으로 글로벌 수주 경쟁력 강화에 속도를 내고 있다. 유럽을 비롯한 주요 시장에서 전략적 협력 체계를 잇달아 구축하며 '에너지 EPC(설계·조달·시공) 플레이어'로의... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a></div><ul class="headlines">
+          <li class="headline">
+            <a href="http://www.areyou.co.kr/news/articleView.html?idxno=93389" target="_blank" rel="noopener">
+              <span class="hl-title">[아유경제_부동산] 현대건설, 핀란드와 에너지 인프라 분야 협력 강화</span>
+              <span class="hl-meta">areyou.co.kr · 04.14</span>
+            </a>
+          </li></ul>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div class="section-icon">⚠️</div>
+        <div class="section-meta">
+          <h2 class="section-title">리스크 모니터링</h2>
+          <div class="section-count">3건</div>
+        </div>
+      </div>
+      <div class="top-cards">
+        <a class="top-card" href="https://www.theguru.co.kr/news/article.html?no=100565" target="_blank" rel="noopener">
+          <div class="top-card-source">더구루 · 04.15</div>
+          <h3 class="top-card-title">GS건설, 폴란드 디벨로퍼와 바르샤바 공동 주거단지 개발 협약</h3>
+          <p class="top-card-desc">폴란드 바르샤바 인근에 단독주택 단지 건설 해외 수주 시장 다변화 박차  GS건설이 폴란드 주택 개발 사업에 공식 착수했다. 미국·이스라엘과 이란 간 전쟁으로 중동 건설 시장이 위축된 가운데 해외 수주 시장... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a>
+        <a class="top-card" href="https://www.hankyung.com/article/202604140768i" target="_blank" rel="noopener">
+          <div class="top-card-source">한국경제 · 04.14</div>
+          <h3 class="top-card-title">1.5조 압구정5구역 놓고 소송전…현대건설 DL이앤씨 고소</h3>
+          <p class="top-card-desc">공사비 1조5000억원 규모의 서울 강남구 압구정5구역 재건축 사업 수주 경쟁에서 현대건설이 DL이앤씨를 고소하는 사태가 발생했다. 현대건설은 압구정5구역 재건축 입찰 과정에서 DL이앤씨 직원이 입찰 서류를 무단... </p>
+          <span class="top-card-more">원문 기사 보기 →</span>
+        </a></div><ul class="headlines">
+          <li class="headline">
+            <a href="https://www.newsfreezone.co.kr/news/articleView.html?idxno=685135" target="_blank" rel="noopener">
+              <span class="hl-title">&quot;흑자라더니 현금적자&quot; 현대건설, 공사비 인상 도미노 '한남3' 덮치나</span>
+              <span class="hl-meta">newsfreezone.co.kr · 04.15</span>
+            </a>
+          </li></ul>
+    </section>
 
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.chosun.com/economy/realty/2026/04/15/MPKVXZX5EBCFJE5OJOXNDABMRI/?utm_source=naver&amp;utm_medium=referral&amp;utm_campaign=naver-news" target="_blank">DL이앤씨, 목동6단지 재건축 무혈 입성하나</a>
-                    </h2>
-                    <p class="card-desc">DL이앤씨는 서울 강남구 압구정5구역 시공사 선정 입찰에도 참여해 현대건설과 경쟁을 벌이게 됐다. 14일 정비업계에 따르면 DL이앤씨는 지난 10일 마감한 목동6단지 재건축 시공사 선정 입찰에 단독 응찰했다.... </p>
-                    <div class="card-footer">
-                        <span class="card-source">조선일보 · 2026-04-15</span>
-                        <a class="card-link" href="https://www.chosun.com/economy/realty/2026/04/15/MPKVXZX5EBCFJE5OJOXNDABMRI/?utm_source=naver&amp;utm_medium=referral&amp;utm_campaign=naver-news" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
+  <footer class="site-footer">
+    <div>현대건설 글로벌사업부 · 내부 업무용</div>
+    <div class="tech">Powered by Naver News API · GitHub Pages</div>
+  </footer>
 
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
-                    <h2 class="card-title">
-                        <a href="http://www.inews24.com/view/1960174" target="_blank">[단독] &quot;입찰보증금 420억원 돌려달라&quot;⋯DL이앤씨, 부산 우동1구역과 소...</a>
-                    </h2>
-                    <p class="card-desc">DL이앤씨가 부산 우동1구역 재건축정비사업조합을 상대로 420억원 규모의 입찰보증금 반환 소송을 제기했다. 조합이 지난해 11월 DL이앤씨의 시공사 선정을 취소하자, 과거 납부한 보증금을 돌려달라고 나선 것이다.... </p>
-                    <div class="card-footer">
-                        <span class="card-source">inews24.com · 2026-04-15</span>
-                        <a class="card-link" href="http://www.inews24.com/view/1960174" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
-                    <h2 class="card-title">
-                        <a href="http://www.hansbiz.co.kr/news/articleView.html?idxno=832883" target="_blank">압구정5구역 입찰 '무단촬영 논란'…현대건설 &quot;클린수주 원칙 강화&quot;</a>
-                    </h2>
-                    <p class="card-desc">현대건설 계동사옥./현대건설 | 서울=한스경제 한나연 기자 | 서울 강남권 핵심 재건축 사업지인 압구정5구역에서 시공사 선정 입찰 과정 중 무단 촬영 논란이 불거지며 사업 절차가 중단됐다. 이에 현대건설은 공정 경쟁... </p>
-                    <div class="card-footer">
-                        <span class="card-source">hansbiz.co.kr · 2026-04-14</span>
-                        <a class="card-link" href="http://www.hansbiz.co.kr/news/articleView.html?idxno=832883" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-compete">수주경쟁</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.m-i.kr/news/articleView.html?idxno=1364404" target="_blank">[단독] 'DL이앤씨 도촬' 압구정5구역, 입찰제안서 개봉 중단</a>
-                    </h2>
-                    <p class="card-desc">사진=서울시 제공 매일일보 = 윤하늘 기자  |  서울 강남구 압구정아파트지구 특별계획구역5 재건축정비사업(이하 압구정5구역) 조합이 현대건설과 DL이앤씨의 입찰제안서 개봉을 중단했다. 강남구청이 제동을 걸고 나선... </p>
-                    <div class="card-footer">
-                        <span class="card-source">m-i.kr · 2026-04-14</span>
-                        <a class="card-link" href="https://www.m-i.kr/news/articleView.html?idxno=1364404" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-<div class="section-divider"><span>에너지 사업</span><span class="section-desc">원전·SMR·해상풍력·수소 등 에너지 인프라 동향</span></div>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
-                    <h2 class="card-title">
-                        <a href="http://www.weeklytoday.com/news/articleView.html?idxno=770975" target="_blank">[위클리오늘] 포스코이앤씨ㆍ대원ㆍDL이앤씨ㆍ삼성물산ㆍ한화 건설부문</a>
-                    </h2>
-                    <p class="card-desc">HVAC 분야 확대 - 스위스 취리히서 MOU 체결하며 전력망 통합 솔루션 구축 합의 - 중동·호주 이어 유럽 인프라 시장 선점 위한 전략적 파트너십 구축 삼성물산 건설부문이 글로벌 전력망 기술 기업인 히타치 에너지(Hitachi... </p>
-                    <div class="card-footer">
-                        <span class="card-source">weeklytoday.com · 2026-04-14</span>
-                        <a class="card-link" href="http://www.weeklytoday.com/news/articleView.html?idxno=770975" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
-                    <h2 class="card-title">
-                        <a href="https://daily.hankooki.com/news/articleView.html?idxno=1358202" target="_blank">[건설업계 브리핑] 삼성물산·SP삼화·GS건설·포스코이앤씨 등</a>
-                    </h2>
-                    <p class="card-desc">사진= 삼성물산 제공 삼성물산 건설부문(이하 삼성물산)은 지난 13일 스위스 취리히에 위치한 히타치 에너지(Hitachi Energy) 본사에서 히타치 에너지와 유럽 지역의 전력망 사업 협력에 대한 업무협약(MOU)을... </p>
-                    <div class="card-footer">
-                        <span class="card-source">daily.hankooki.com · 2026-04-14</span>
-                        <a class="card-link" href="https://daily.hankooki.com/news/articleView.html?idxno=1358202" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-energy">에너지</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.news2day.co.kr/article/20260414500173" target="_blank">[현대건설이 일하는 법] 글로벌 원전 수주 전략은?…'주도형 업무 능력...</a>
-                    </h2>
-                    <p class="card-desc"> 이한우 현대건설 대표이사 [사진=현대건설 / 편집=뉴스투데이] [뉴스투데이=장지우 기자] 현대건설(대표이사 이한우)은 글로벌 에너지 인프라 시장에서 기술력과 실행력을 기반으로 프로젝트를 주도하며... </p>
-                    <div class="card-footer">
-                        <span class="card-source">news2day.co.kr · 2026-04-14</span>
-                        <a class="card-link" href="https://www.news2day.co.kr/article/20260414500173" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-<div class="section-divider"><span>리스크 모니터링</span><span class="section-desc">공사비·안전사고·정책 변경·금융리스크 등 건설사 영향 이슈</span></div>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.newspim.com/news/view/20260414001327" target="_blank">[AI 부동산 투데이] 현대건설, 압구정5구역 '도촬' 혐의로 DL이앤씨 고소</a>
-                    </h2>
-                    <p class="card-desc">◆ 현대건설, 압구정5구역 '도촬' 혐의로 DL이앤씨 고소 총공사비만 1조4960억원에 달하는 서울 강남구 압구정5구역 재건축 사업 수주전에서 현대건설이 경쟁사인 DL이앤씨 관계자를 입찰 서류 무단 촬영 혐의로 경찰에... </p>
-                    <div class="card-footer">
-                        <span class="card-source">뉴스핌 · 2026-04-14</span>
-                        <a class="card-link" href="https://www.newspim.com/news/view/20260414001327" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
-                    <h2 class="card-title">
-                        <a href="https://kpenews.com/View.aspx?No=4042036" target="_blank">건설사, 이란 사태 위기가 기회될까..재건시 삼성E&amp;A, DL이앤씨 수혜 전...</a>
-                    </h2>
-                    <p class="card-desc">현대건설과 대우건설, GS건설 등도 중동에서 플랜트 사업을 다수 진행하고 있다는 점에서 수주 수혜가 기대된다. 현대건설과 대우건설, GS건설, DL이앤씨가 담당했던 시설의 피해는 각 2개로 예상됐다. 다만 전쟁이... </p>
-                    <div class="card-footer">
-                        <span class="card-source">한국정경신문 · 2026-04-15</span>
-                        <a class="card-link" href="https://kpenews.com/View.aspx?No=4042036" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-inner">
-                <div class="card-body">
-                    <div class="card-tags"><span class="tag tag-risk">리스크</span></div>
-                    <h2 class="card-title">
-                        <a href="https://www.newsis.com/view/NISX20260414_0003591019" target="_blank">소송에 내홍, 수사까지…상대원2구역 착공 지연 불가피</a>
-                    </h2>
-                    <p class="card-desc">조합 집행부가 기존 시공사인 DL이앤씨와의 계약을 해지했지만, 새로운 시공사 선정이 한 차례 무산된 데다 DL이앤씨에서 '법적 대응'을 시사하면서 사업 지연에 대한 우려가 커지고 있다. 15일 정비업계에 따르면... </p>
-                    <div class="card-footer">
-                        <span class="card-source">뉴시스 · 2026-04-15</span>
-                        <a class="card-link" href="https://www.newsis.com/view/NISX20260414_0003591019" target="_blank">
-                            기사 원문
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-    </main>
-    <footer class="footer">
-        <img src="logo.png" alt="HYUNDAI E&C" style="height:24px; margin-bottom:8px;">
-        <p>HDEC AI 뉴스 큐레이션 · 건설업계 뉴스 종합 · 2026.04.15 자동 생성</p>
-    </footer>
+</main>
 </body>
 </html>
