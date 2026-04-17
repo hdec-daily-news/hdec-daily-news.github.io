@@ -649,7 +649,7 @@ def generate_html(articles):
     <div class="site-meta">
       <span>업데이트 {today}</span>
       <span class="sep">·</span>
-      <span>매일 오전 7:30 / 오후 1:00 자동</span>
+      <span class="auto-badge">🔄 매일 07시 / 12시 2회 자동 업데이트</span>
     </div>
   </header>
 
