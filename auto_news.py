@@ -647,8 +647,6 @@ def generate_html(articles):
       <span class="brand-name">HDEC Daily News</span>
     </a>
     <div class="site-meta">
-      <span>업데이트 {today}</span>
-      <span class="sep">·</span>
       <span class="auto-badge">🔄 매일 07시 / 12시 2회 자동 업데이트</span>
     </div>
   </header>
