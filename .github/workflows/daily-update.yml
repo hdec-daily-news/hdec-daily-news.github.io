@@ -2,11 +2,21 @@ name: Daily News Update
 
 on:
   schedule:
-    # KST 오전 7:30 목표 (UTC 22:17)
+    # 오전 (KST 07:17) — 기존 유지
     - cron: '17 22 * * *'
-    # KST 오후 1:00 목표 (UTC 03:47)
-    - cron: '47 3 * * *'
-  workflow_dispatch: # 수동 실행도 가능
+    # 오후 (KST 12:00~12:30, 5분 간격 7회) — GitHub 크론 누락 대비 밀도 증가
+    - cron: '0 3 * * *'
+    - cron: '5 3 * * *'
+    - cron: '10 3 * * *'
+    - cron: '15 3 * * *'
+    - cron: '20 3 * * *'
+    - cron: '25 3 * * *'
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: daily-news-update
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -17,21 +27,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Skip if already updated this slot
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "skip=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          NOW_H=$((10#$(TZ=Asia/Seoul date +%H)))
+          LAST_ISO=$(git log -1 --pretty=%cI)
+          LAST_H=$((10#$(TZ=Asia/Seoul date -d "$LAST_ISO" +%H)))
+          LAST_D=$(TZ=Asia/Seoul date -d "$LAST_ISO" +%Y-%m-%d)
+          TODAY=$(TZ=Asia/Seoul date +%Y-%m-%d)
+          if [ "$NOW_H" -ge 12 ] && [ "$LAST_D" = "$TODAY" ] && [ "$LAST_H" -ge 12 ]; then
+            echo "Already updated today afternoon ($LAST_ISO) — skip"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          if [ "$NOW_H" -lt 12 ] && [ "$LAST_D" = "$TODAY" ] && [ "$LAST_H" -lt 12 ] && [ "$LAST_H" -ge 6 ]; then
+            echo "Already updated today morning ($LAST_ISO) — skip"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "skip=false" >> $GITHUB_OUTPUT
+
       - name: Set up Python
+        if: steps.guard.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
+        if: steps.guard.outputs.skip != 'true'
         run: pip install -r requirements.txt
 
       - name: Run news collector
+        if: steps.guard.outputs.skip != 'true'
         run: python auto_news.py
 
       - name: Copy to index.html
+        if: steps.guard.outputs.skip != 'true'
         run: cp news_top10.html index.html
 
       - name: Commit and push
+        if: steps.guard.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
